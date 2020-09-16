@@ -6,6 +6,7 @@ import numpy as np
 import re
 import os
 # - - - - - - - - - - - - - - - - - -
+def get_wiki_tables(url):
     """
     Gets a list of tables from an input url.
 
@@ -74,7 +75,7 @@ def get_df_from_table(table_in):
     df = pd.DataFrame(record_list)
     return df
 # – – - - - -
-tables = get_tables_from_url(url)
+tables = get_wiki_tables(url)
 df=pd.DataFrame()
 for table in tables:
     sub_df = get_df_from_table(table)
