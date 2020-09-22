@@ -1,10 +1,12 @@
-import requests
-import pandas as pd
-from IPython.display import display_html
-from bs4 import BeautifulSoup
-import numpy as np
-import re
 import os
+import re
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+
+
+
 # - - - - - - - - - - - - - - - - - -
 def get_wiki_tables(url):
     """
@@ -71,7 +73,7 @@ def get_data_from_table(table_in):
             record['Link'] = 'https://en.wikipedia.org' + row.find('a').get('href')
 
         record_list.append(record)
-        
+
     return record_list
 
 # – – - - - -
@@ -81,7 +83,7 @@ all_records = []
 for table in tables:
     records = get_data_from_table(table)
     all_records.append(records)
-    
+
 df = pd.DataFrame.from_records(all_records)
 
 name_root = url.split('/')[-1]
