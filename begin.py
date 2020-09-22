@@ -6,6 +6,7 @@ import numpy as np
 import re
 import os
 # - - - - - - - - - - - - - - - - - -
+def get_wiki_tables(url):
     """
     Gets a list of tables from an input url.
 
@@ -20,7 +21,7 @@ import os
 
     return tables
 # - - - - - - - - - - - - - - -
-def get_df_from_table(table_in):
+def get_data_from_table(table_in):
     """
     returns a structured table for a beautiful soup table
     """
@@ -70,15 +71,18 @@ def get_df_from_table(table_in):
             record['Link'] = 'https://en.wikipedia.org' + row.find('a').get('href')
 
         record_list.append(record)
+        
+    return record_list
 
-    df = pd.DataFrame(record_list)
-    return df
 # – – - - - -
-tables = get_tables_from_url(url)
-df=pd.DataFrame()
+tables = get_wiki_tables(url)
+
+all_records = []
 for table in tables:
-    sub_df = get_df_from_table(table)
-    df = df.append(sub_df,ignore_index=True)
+    records = get_data_from_table(table)
+    all_records.append(records)
+    
+df = pd.DataFrame.from_records(all_records)
 
 name_root = url.split('/')[-1]
 df_name = 'Wikipedia_scrape_' + name_root + '.csv'
