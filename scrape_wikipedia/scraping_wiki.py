@@ -78,14 +78,3 @@ class WikiScraper:
 
         df = pd.DataFrame(record_list)
         return df
-
-
-
-# if __name__ == "__main__":
-
-    # url = 'https://en.wikipedia.org/wiki/Tony_Award_for_Best_Musical'
-    #
-    # soup = utils.get_soup('https://en.wikipedia.org/wiki/Tony_Award_for_Best_Musical')
-    # attrs = {"class": ["wikitable"]}
-    # tables = get_tables_from_url(soup, attrs)
-    # print(tables)

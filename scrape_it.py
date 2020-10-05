@@ -9,8 +9,6 @@ if __name__ == "__main__":
     df=pd.DataFrame()
     # Currently, tables are extracted successfully
     for table in wq.tables:
-
-        # Need to allow df from tables...
         sub_df = wq.get_df_from_table(table)
         df = df.append(sub_df,ignore_index=True)
 

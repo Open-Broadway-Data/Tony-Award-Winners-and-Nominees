@@ -9,6 +9,7 @@ def get_soup(url):
     return soup
 
 
+
 def get_tables_from_url(soup, attrs:dict):
     """
     Gets a list of tables from an input url.
