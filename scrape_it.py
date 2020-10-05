@@ -1,4 +1,4 @@
-from scrape_wikipedia import base_url, WikiScraper
+from scrape_wikipedia import base_url, WikiScraper, utils
 import pandas as pd
 
 if __name__ == "__main__":

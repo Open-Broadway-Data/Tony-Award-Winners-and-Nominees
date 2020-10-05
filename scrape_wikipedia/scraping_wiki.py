@@ -29,10 +29,52 @@ class WikiScraper:
         returns a structured table for a beautiful soup table
         """
 
+        # ----------------------------------------------------------------------
+        # STEP 1: Determine the year of the table (which tony awards is it referring to?)
         ### SET UP REGEX
 
         re_1 = "\d{4}"
         re_2 = "\d{1,2}(th|rd|st|nd) Tony Awards"
+
+
+        # ----------------------------------------------------------------------
+
+        # STEP 2: Determine table columns
+        ### SET UP REGEX
+
+
+
+
+        # ----------------------------------------------------------------------
+        # STEP 3: Determine columns attributes? (some columns aren't columns, but color differences)
+
+
+
+
+        # ----------------------------------------------------------------------
+        # STEP 4: Loop through and get the values
+
+
+        """
+        Ideally you loop through the table's rows and generate value pairs as such:
+
+        records = []
+        for row in table:
+            rec = {}
+            for col in columns:
+                rec[col] = value
+            # after looping through
+            records.append(rec)
+
+        # finally, you are done
+        df = pd.DataFrame.from_records(records)
+        """
+
+
+
+
+
+        # ----------------------------------------------------------------------
 
         # Get Winners!
         winner_vals=[]
