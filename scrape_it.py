@@ -11,10 +11,10 @@ if __name__ == "__main__":
     for table in wq.tables:
 
         # Need to allow df from tables...
-        sub_df = get_df_from_table(table)
+        sub_df = wq.get_df_from_table(table)
         df = df.append(sub_df,ignore_index=True)
 
-    name_root = url.split('/')[-1]
+    name_root = wq.url.split('/')[-1]
     df_name = 'Wikipedia_scrape_' + name_root + '.csv'
     df = df[['Year','Winner','Musical','Music','Book','Lyrics','Link']]
     print(df)
