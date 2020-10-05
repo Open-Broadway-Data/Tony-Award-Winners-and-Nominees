@@ -15,12 +15,11 @@ class WikiScraper:
     def __init__(self, url, **kwargs):
         self.url = url
         self.table_attrs = kwargs.get("table_attrs", {"class": ["wikitable"]})
-
         self.soup = utils.get_soup(url)
 
     @property
     def tables(self):
-        return utils.get_tables_from_url(self.url, self.table_attrs)
+        return utils.get_tables_from_url(self.soup, self.table_attrs)
 
     # ---
 
