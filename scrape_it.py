@@ -8,6 +8,8 @@ if __name__ == "__main__":
     tables = wq.tables
 
 
+    # NEED TO DEBUG THE FOLLOWING CODE!
+
     records = []
 
     # Put them all together
