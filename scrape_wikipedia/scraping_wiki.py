@@ -69,7 +69,7 @@ class WikiScraper:
         # finally, you are done
         df = pd.DataFrame.from_records(records)
         """
-
+        
 
 
 
