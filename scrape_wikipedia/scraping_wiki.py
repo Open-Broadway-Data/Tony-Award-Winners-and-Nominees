@@ -42,6 +42,7 @@ class WikiScraper:
         # STEP 2: Determine table columns
         ### SET UP REGEX
 
+        my_columns = utils.get_column_names(table)
 
 
 
