@@ -31,10 +31,8 @@ class WikiScraper:
 
         # ----------------------------------------------------------------------
         # STEP 1: Determine the year of the table (which tony awards is it referring to?)
-        ### SET UP REGEX
+        ### We don't really need this. Skip it for now, perhaps get back to it later.
 
-        re_1 = "\d{4}"
-        re_2 = "\d{1,2}(th|rd|st|nd) Tony Awards"
 
 
         # ----------------------------------------------------------------------
@@ -49,7 +47,8 @@ class WikiScraper:
         # ----------------------------------------------------------------------
         # STEP 3: Determine columns attributes? (some columns aren't columns, but color differences)
 
-
+        #re_1 = "\d{4}"
+        #re_2 = "\d{1,2}(th|rd|st|nd) Tony Awards"
 
 
         # ----------------------------------------------------------------------
