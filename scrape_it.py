@@ -1,3 +1,4 @@
+import sys
 from scrape_wikipedia import base_url, WikiScraper, utils
 import pandas as pd
 
@@ -6,6 +7,14 @@ if __name__ == "__main__":
     wq = WikiScraper(base_url)
     tables = wq.tables
 
+
+    # test
+    wq.get_df_from_table(tables[1])
+    sys.exit()
+
+
+
+    
     df=pd.DataFrame()
     # Currently, tables are extracted successfully
     for table in wq.tables:
