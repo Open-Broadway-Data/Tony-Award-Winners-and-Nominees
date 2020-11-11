@@ -62,6 +62,8 @@ def get_column_names(my_table)-> list:
 
     return column_names
 
+
+
 # ---------------------------------------------------
 
 def get_text_clean(string, attr=None):
