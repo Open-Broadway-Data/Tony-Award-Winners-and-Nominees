@@ -7,14 +7,17 @@ if __name__ == "__main__":
     wq = WikiScraper(base_url)
     tables = wq.tables
 
+    # get data...
+    data = wq.get_data_from_table(tables[1])
 
-    # test
-    wq.get_df_from_table(tables[1])
     sys.exit()
 
+    # NEXT TIME:
+    # make this work for all tables on the page...
 
 
-    
+
+
     df=pd.DataFrame()
     # Currently, tables are extracted successfully
     for table in wq.tables:

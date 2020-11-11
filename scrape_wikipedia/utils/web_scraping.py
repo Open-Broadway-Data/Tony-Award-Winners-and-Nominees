@@ -84,7 +84,19 @@ def get_links_clean(soup_tag):
 
 
 
+# ---------------------------------------------------
+def is_this_a_winner(row, winning_attrs):
+    """
+    If your row has all of the winning attributes of the inputted dict, then it's a winner
 
+    returns a boolean value
+    """
+    for key, value in winning_attrs.items():
+        row_value = row.get(key)
+        if row_value==value:
+            return True
+        else:
+            return False
 
 
 

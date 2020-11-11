@@ -24,7 +24,7 @@ class WikiScraper:
 
 
     @staticmethod
-    def get_df_from_table(table):
+    def get_data_from_table(table):
         """
         returns a structured table for a beautiful soup table
         """
@@ -97,12 +97,12 @@ class WikiScraper:
 
 
             # Figure out if they won the tony award or not...
-            # 10 minute job...
-            # attrs={'style':'background:#B0C4DE'}
+            winning_attrs={'style':'background:#B0C4DE'}
+            winner = utils.is_this_a_winner(row, winning_attrs)
 
 
             # Begin the record....
-            rec = {'year':year, 'season': season}
+            rec = {'year':year, 'season': season, 'winner':winner}
 
 
             n_cells = len(row.find_all('td'))
@@ -134,8 +134,7 @@ class WikiScraper:
 
             # save your row
             records.append(rec)
-        print(records)
-        return
+        return records
 
 
 
