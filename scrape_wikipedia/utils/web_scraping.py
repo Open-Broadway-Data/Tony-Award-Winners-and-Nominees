@@ -4,14 +4,23 @@ from string import punctuation
 import re
 
 
-def remove_punctuation(string):
+def remove_punctuation(string, exceptions=[]):
     # No need if it's not a string
     if not isinstance(string, str):
         return string
 
-    remove_punct_map = dict.fromkeys(map(ord, punctuation))
+    # Get a list of all the characters you want to remove...
+    remove_punct = [x for x in punctuation]
 
-    return string.translate(remove_punct_map)
+    # Keep exceptions
+    for x in exceptions:
+        if x in remove_punct:
+            remove_punct.remove(x)
+
+    pattern = re.compile('[' + ''.join(remove_punct) +']')
+    replaced = re.sub(pattern, '', string)
+
+    return replaced
 
 
 def get_soup(url):
@@ -87,7 +96,7 @@ def get_text_from_tag(string:str, attr=None):
     if attr:
         string = string.get(attr)
 
-    return remove_punctuation(string).strip()
+    return remove_punctuation(string, exceptions=['*', '†']).strip()
 
 
 # ---------------------------------------------------

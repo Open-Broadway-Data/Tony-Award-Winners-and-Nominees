@@ -9,7 +9,6 @@ if __name__ == "__main__":
     tables = wq.tables
 
     # NEED TO DEBUG THE FOLLOWING CODE!
-
     records = []
 
     # Put them all together
@@ -27,6 +26,11 @@ if __name__ == "__main__":
     # Save it here
     df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
     print(f'Saving data to "{df_name}"')
+
+
+    df['Pulitzer_Prize_Winner'] = df['Musical'].str.contains('†')
+    df['Pulitzer_Prize_Finalist'] = df['Musical'].str.contains('\*')
+
     df.to_csv(df_name)
 
     # df = df[['Year','Winner','Musical','Music','Book','Lyrics','Link']]

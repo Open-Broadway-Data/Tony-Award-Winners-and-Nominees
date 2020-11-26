@@ -43,6 +43,10 @@ class WikiScraper:
             # 3. get row indexes
             # get the year and season – then, get out of there...
             index_col = row.find('td', {'rowspan':True})
+
+            # Default values as none...
+            year = None; season=None; winner=None;
+
             if index_col:
                 year = int(index_col.find('b').text)
                 season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
