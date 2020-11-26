@@ -18,6 +18,7 @@ secret
 
 # Ignore data
 # data (Don't ignore for now...!)
+data
 data (old)
 old
 

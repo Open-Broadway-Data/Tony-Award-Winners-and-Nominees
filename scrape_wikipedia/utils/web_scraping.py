@@ -1,5 +1,18 @@
 import requests
 import bs4
+from string import punctuation
+import re
+
+
+def remove_punctuation(string):
+    # No need if it's not a string
+    if not isinstance(string, str):
+        return string
+
+    remove_punct_map = dict.fromkeys(map(ord, punctuation))
+
+    return string.translate(remove_punct_map)
+
 
 def get_soup(url):
     # Request the document
@@ -66,14 +79,19 @@ def get_column_names(my_table)-> list:
 
 # ---------------------------------------------------
 
-def get_text_clean(string, attr=None):
+def get_text_from_tag(string:str, attr=None):
     if not string:
         return None
 
     # doesn't always need to look something up...
     if attr:
         string = string.get(attr)
-    return string.strip()
+
+    return remove_punctuation(string).strip()
+
+
+# ---------------------------------------------------
+
 
 
 # ---------------------------------------------------

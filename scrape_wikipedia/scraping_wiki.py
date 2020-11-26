@@ -45,7 +45,7 @@ class WikiScraper:
             index_col = row.find('td', {'rowspan':True})
             if index_col:
                 year = int(index_col.find('b').text)
-                season = utils.get_text_clean(index_col.find('a',{'href':True, 'title':True}),'title')
+                season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
                 continue
 
             # 4. Is this row a winner?
@@ -67,12 +67,12 @@ class WikiScraper:
             for cell in row.find_all('td'):
 
                 #how many rows does this cell span?
-                n_cols = int(cell.get("colspan", 1))
+                n_cols = int(utils.remove_punctuation(cell.get("colspan", 1)))
 
                 for j in range(n_cols):
 
                     col_name = my_columns[i]
-                    val = utils.get_text_clean(cell.text)
+                    val = utils.get_text_from_tag(cell.text)
 
                     # 7. Store your values
                     rec.update({col_name: val})
