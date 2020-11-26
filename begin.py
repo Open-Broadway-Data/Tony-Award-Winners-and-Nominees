@@ -6,7 +6,6 @@ import pandas as pd
 
 
 
-
 # - - - - - - - - - - - - - - - - - -
 def get_wiki_tables(url):
     """
