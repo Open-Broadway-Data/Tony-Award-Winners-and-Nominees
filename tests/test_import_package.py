@@ -1,7 +1,4 @@
-import os
-import sys
-sys.path.append('scrape_wikipedia')
-
+import pytest
 import scrape_wikipedia
 
 def test():

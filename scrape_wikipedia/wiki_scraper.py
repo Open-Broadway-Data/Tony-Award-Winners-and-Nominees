@@ -43,12 +43,15 @@ class WikiScraper:
     # -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
     # continue here...
-    @staticmethod
-    def get_links_for_tony_awards(soup):
+    def get_links_for_tony_awards(*args):
         """
         Wrapper for `methods.get_data_from_table`
+
+        Works with an initialized url or not:
+            `WikiScraper.get_links_for_tony_awards()`
+            `WikiScraper(url).get_links_for_tony_awards()`
         """
-        return methods.get_links_for_tony_awards(soup)
+        return methods.get_links_for_tony_awards()
 
 
 
