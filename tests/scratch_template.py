@@ -8,22 +8,32 @@ from scrape_wikipedia import WikiScraper, base_url, utils
 import pandas as pd
 # ------------------------------
 
-wq = WikiScraper(base_url)
 
-# all_links= wq.get_links_for_tony_awards()
+all_links = WikiScraper.get_links_for_tony_awards()
 
+# Go through each page...
+for link in all_links:
+    None
+    break
 
-tables = wq.tables
-
-# NEED TO DEBUG THE FOLLOWING CODE!
-records = []
-
-# Put them all together
-for table in wq.tables:
-    data = wq.get_data_from_table(table)
-    records.extend(data)
+link
 
 
-df = pd.DataFrame(records)
 
-df
+
+
+#
+# tables = wq.tables
+#
+# # NEED TO DEBUG THE FOLLOWING CODE!
+# records = []
+#
+# # Put them all together
+# for table in wq.tables:
+#     data = wq.get_data_from_table(table)
+#     records.extend(data)
+#
+#
+# df = pd.DataFrame(records)
+
+# df
