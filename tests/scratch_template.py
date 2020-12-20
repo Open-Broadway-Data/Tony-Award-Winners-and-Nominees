@@ -24,6 +24,8 @@ import pandas as pd
 
 
 # Continue here
+
+# wq = WikiScraper('https://en.wikipedia.org/wiki/Tony_Award_for_Best_Actor_in_a_Play')
 # wq = WikiScraper('https://en.wikipedia.org/wiki/Tony_Award_for_Best_Direction_of_a_Musical')
 # wq = WikiScraper('https://wikipedia.org/wiki/Tony_Award_for_Best_Performance_by_a_Leading_Actor_in_a_Musical')
 award_type = wq.wiki_title
@@ -38,7 +40,6 @@ records = []
 for table in wq.tables:
     data = wq.get_data_from_table(table)
     records.extend(data)
-
 
 
 
@@ -61,7 +62,7 @@ print(f'Dropping {len(drop_rows):,} rows')
 df.drop(drop_rows, inplace=True)
 df.dropna(axis=1, how='all', inplace=True)
 
-df
+
 
 
 # df.isna().sum(axis=1).value_counts()
