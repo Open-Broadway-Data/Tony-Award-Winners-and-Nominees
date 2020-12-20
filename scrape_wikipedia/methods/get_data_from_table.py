@@ -25,10 +25,15 @@ def get_data_from_table(table:bs4.element.Tag):
         # 3. get row indexes
         # get the year and season – then, get out of there...
         # index_col = row.find('td', {'rowspan':True})
-        index_col = row.find('td', {'align':'center'})
+        index_col = row.select_one('td[align="center"], th[align="center"]')
+        # row.find('td', {'align':'center'})
 
         if index_col:
-            year = utils.get_number_from_str(index_col.find('b').text)
+            # Year is either bold or is the 1st link
+            if index_col.find('b'):
+                year = utils.get_number_from_str(index_col.find('b').text)
+            else:
+                year = utils.get_number_from_str(index_col.find('a').text)
 
             season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
             #continue
@@ -62,7 +67,7 @@ def get_data_from_table(table:bs4.element.Tag):
 
         if len(my_cells)==1:
             continue
-        
+
         # If you have the same number, remove the first cell
         if len(my_cells)==len(my_columns):
             del my_cells[0]
