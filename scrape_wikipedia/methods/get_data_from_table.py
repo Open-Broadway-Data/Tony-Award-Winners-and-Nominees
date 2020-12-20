@@ -10,7 +10,7 @@ def get_data_from_table(table:bs4.element.Tag):
     # ----------------------------------------------------------------------
     # 1. Get your column names
     my_columns = utils.get_column_names(table)
-    max_rowspan = 0
+    # max_rowspan = 0
 
     # get all values
     records = []
@@ -24,21 +24,26 @@ def get_data_from_table(table:bs4.element.Tag):
 
         # 3. get row indexes
         # get the year and season – then, get out of there...
-        index_col = row.find('td', {'rowspan':True})
+        # index_col = row.find('td', {'rowspan':True})
+        index_col = row.find('td', {'align':'center'})
 
         if index_col:
-            n_rowspan = int(utils.remove_punctuation(index_col.get('rowspan')))
-            if n_rowspan >= max_rowspan:
-                max_rowspan = n_rowspan
+            year = utils.get_number_from_str(index_col.find('b').text)
 
-                # Get the year and skip to the next item in the loop
-                year = int(index_col.find('b').text)
-                season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
-                continue
-
-            # Continue as normal
-            else:
-                None
+            season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
+            #continue
+            # n_rowspan = int(utils.remove_punctuation(index_col.get('rowspan')))
+            # if n_rowspan >= max_rowspan:
+            #     max_rowspan = n_rowspan
+            #
+            #     # Get the year and skip to the next item in the loop
+            #     year = int(index_col.find('b').text)
+            #     season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
+            #     continue
+            #
+            # # Continue as normal
+            # else:
+            #     None
 
         # 4. Is this row a winner?
         # Figure out if they won the tony award or not...
@@ -53,8 +58,17 @@ def get_data_from_table(table:bs4.element.Tag):
 
         # 6. Iterate through each row (get cell values)
         # i = 1 since index_col is i=0
+        my_cells = row.select('td:not(.table-na)')
+
+        if len(my_cells)==1:
+            continue
+        
+        # If you have the same number, remove the first cell
+        if len(my_cells)==len(my_columns):
+            del my_cells[0]
+
         i=1
-        for cell in row.select('td:not(.table-na)'):
+        for cell in my_cells:
 
             #how many rows does this cell span?
             n_cols = int(utils.remove_punctuation(cell.get("colspan", 1)))

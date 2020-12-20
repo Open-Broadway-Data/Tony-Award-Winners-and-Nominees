@@ -32,19 +32,20 @@ def get_tables_from_url(soup, attrs:dict):
     table_widths = [get_width(x.get('style')) for x in tables]
     val_counts = pd.value_counts(table_widths)
 
+
     # 2 or more values and the smaller table is substantially smaller
-    if len(val_counts)==2 and (val_counts.index[0] - val_counts.index[1])>10:
+    if val_counts.sum()!=len(tables) \
+        or (len(val_counts)==2 and (val_counts.index[0] - val_counts.index[1])>5):
         # anything that isn't big, delete...
         my_width = val_counts.index[0]
 
-        # iterate through and remove
+        # Remove small tables as well as those w/o width
         for tb, tb_w in zip(tables, table_widths):
-            if tb_w<my_width:
+            if not tb_w or tb_w<my_width:
                 tables.remove(tb)
 
     elif len(val_counts)>2:
         raise ValueError('There are 3 types of tables on this page... Help...')
-
 
 
     return tables

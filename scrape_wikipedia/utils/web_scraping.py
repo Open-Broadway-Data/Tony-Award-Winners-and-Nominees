@@ -33,6 +33,12 @@ def get_soup(url):
 
 
 
+# ---------------------------------------------------
+def get_number(string):
+    """returns a tuple with the text and href of an a tag"""
+    return (soup_tag.text, soup_tag.get("href"))
+
+
 
 # ---------------------------------------------------
 
