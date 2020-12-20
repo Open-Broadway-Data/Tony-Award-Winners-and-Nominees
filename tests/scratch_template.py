@@ -4,23 +4,26 @@ import os
 import sys
 sys.path.append('Tony-Award-Winners-and-Nominees')
 
-from scrape_wikipedia import WikiScraper, base_url
-
+from scrape_wikipedia import WikiScraper, base_url, utils
+import pandas as pd
 # ------------------------------
 
 wq = WikiScraper(base_url)
 
-all_links_1 = wq.get_links_for_tony_awards()
-all_links_2 = WikiScraper.get_links_for_tony_awards()
-
-all_links_1==all_links_2
+# all_links= wq.get_links_for_tony_awards()
 
 
-from itertools import groupby
-def all_equal(iterable):
-    g = groupby(iterable)
-    return next(g, True) and not next(g, False)
+tables = wq.tables
+
+# NEED TO DEBUG THE FOLLOWING CODE!
+records = []
+
+# Put them all together
+for table in wq.tables:
+    data = wq.get_data_from_table(table)
+    records.extend(data)
 
 
-all_equal([all_links_1, all_links_2, all_links_1])
-#
+df = pd.DataFrame(records)
+
+df

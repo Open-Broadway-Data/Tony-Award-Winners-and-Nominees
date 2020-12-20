@@ -15,6 +15,9 @@ def get_data_from_table(table:bs4.element.Tag):
     records = []
     rows = table.find_all('tr')
 
+    # Default values as none...
+    year = None; season=None; winner=None;
+
     # 2. Iterate through rows.
     for row in rows[1:]:
 
@@ -22,10 +25,8 @@ def get_data_from_table(table:bs4.element.Tag):
         # get the year and season – then, get out of there...
         index_col = row.find('td', {'rowspan':True})
 
-        # Default values as none...
-        year = None; season=None; winner=None;
-
         if index_col:
+
             year = int(index_col.find('b').text)
             season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
             continue
