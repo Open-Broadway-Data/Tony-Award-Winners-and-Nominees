@@ -24,3 +24,6 @@ old
 
 # Ignore migrations:
 migrations
+
+# ignore pytest cache
+.pytest_cache
