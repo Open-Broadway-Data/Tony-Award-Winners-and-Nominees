@@ -10,6 +10,7 @@ def get_data_from_table(table:bs4.element.Tag):
     # ----------------------------------------------------------------------
     # 1. Get your column names
     my_columns = utils.get_column_names(table)
+    max_rowspan = 0
 
     # get all values
     records = []
@@ -26,10 +27,18 @@ def get_data_from_table(table:bs4.element.Tag):
         index_col = row.find('td', {'rowspan':True})
 
         if index_col:
+            n_rowspan = int(utils.remove_punctuation(index_col.get('rowspan')))
+            if n_rowspan >= max_rowspan:
+                max_rowspan = n_rowspan
 
-            year = int(index_col.find('b').text)
-            season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
-            continue
+                # Get the year and skip to the next item in the loop
+                year = int(index_col.find('b').text)
+                season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
+                continue
+
+            # Continue as normal
+            else:
+                None
 
         # 4. Is this row a winner?
         # Figure out if they won the tony award or not...
@@ -42,12 +51,10 @@ def get_data_from_table(table:bs4.element.Tag):
         rec = {'year':year, 'season': season, 'winner':winner}
 
 
-        n_cells = len(row.find_all('td'))
-
         # 6. Iterate through each row (get cell values)
         # i = 1 since index_col is i=0
         i=1
-        for cell in row.find_all('td'):
+        for cell in row.select('td:not(.table-na)'):
 
             #how many rows does this cell span?
             n_cols = int(utils.remove_punctuation(cell.get("colspan", 1)))

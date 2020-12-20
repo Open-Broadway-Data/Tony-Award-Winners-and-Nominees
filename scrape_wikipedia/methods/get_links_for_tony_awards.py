@@ -14,4 +14,7 @@ def get_links_for_tony_awards():
     all_links_urls = set(x.get("href") for x in all_links)
     all_links_urls_formatted = list(map(lambda x: 'https://wikipedia.org'+x, all_links_urls))
 
+    # sort them
+    sorted(all_links_urls_formatted)
+
     return all_links_urls_formatted

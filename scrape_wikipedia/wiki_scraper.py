@@ -25,19 +25,25 @@ class WikiScraper:
             soup: beautiful soup for this url...
         """
         self.url = url
-        self.table_attrs = kwargs.get("table_attrs", {"class": ["wikitable"]})
-
+        self.table_attrs = kwargs.get("table_attrs", {"class": ["wikitable"], "style":True})
+        self.soup = utils.get_soup(self.url)
 
     # Soup on demand
+    # @property
+    # def soup(self):
+    #     """Only get soup when you need it..."""
+    #     self._soup = utils.get_soup(self.url)
+    #     return self._soup
+
     @property
-    def soup(self):
-        return utils.get_soup(self.url)
+    def wiki_title(self):
+        return self.soup.select_one('.firstHeading').text.strip()
 
     # tables on demand
     @property
     def tables(self):
-        soup = self.soup
-        return utils.get_tables_from_url(soup, self.table_attrs)
+        return utils.get_tables_from_url(self.soup, self.table_attrs)
+
 
 
     # -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
