@@ -9,7 +9,7 @@ import pandas as pd
 def get_width(string):
     if not string:
         return None
-    m = re.match(r'width:(\d{1,2})\%;', string)
+    m = re.match(r'width:(\d{1,3})\%;', string)
     if not m:
         return None
     # otherwise
@@ -31,7 +31,6 @@ def get_tables_from_url(soup, attrs:dict):
     # Now, filter based on widths
     table_widths = [get_width(x.get('style')) for x in tables]
     val_counts = pd.value_counts(table_widths)
-
 
     # 2 or more values and the smaller table is substantially smaller
     if val_counts.sum()!=len(tables) \

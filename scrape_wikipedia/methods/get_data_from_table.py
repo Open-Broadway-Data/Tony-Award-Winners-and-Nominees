@@ -36,7 +36,7 @@ def get_data_from_table(table:bs4.element.Tag):
                 year = utils.get_number_from_str(index_col.find('a').text)
 
             season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
-            #continue
+            continue
             # n_rowspan = int(utils.remove_punctuation(index_col.get('rowspan')))
             # if n_rowspan >= max_rowspan:
             #     max_rowspan = n_rowspan
@@ -65,8 +65,9 @@ def get_data_from_table(table:bs4.element.Tag):
         # i = 1 since index_col is i=0
         my_cells = row.select('td:not(.table-na)')
 
-        if len(my_cells)==1:
-            continue
+        # I'm not sure we should do this...
+        # if len(my_cells)==1:
+        #     continue
 
         # If you have the same number, remove the first cell
         if len(my_cells)==len(my_columns):
