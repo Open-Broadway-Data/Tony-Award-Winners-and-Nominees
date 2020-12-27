@@ -69,8 +69,15 @@ def is_this_a_winner(row, winning_attrs):
     returns a boolean value
     """
     for key, value in winning_attrs.items():
+
         row_value = row.get(key)
-        if row_value==value:
+
+        # # If the row has a semicolon but the value doesn't
+        # if not value.endswith(';') and row_value.endswith(';'):
+        #     row_value=row_value[:-1]
+
+        if row_value and value in row_value:
+        # if row_value==value:
             return True
         else:
             return False

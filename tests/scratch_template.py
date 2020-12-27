@@ -5,6 +5,7 @@ import sys
 sys.path.append('Tony-Award-Winners-and-Nominees')
 
 from scrape_wikipedia import WikiScraper, base_url, utils, methods
+import numpy as np
 import pandas as pd
 
 pd.options.display.max_rows = 50
@@ -27,11 +28,11 @@ X	Tony Award for Best Conductor and Musical Director
 X	Tony Award for Best Costume Design
 X	Tony Award for Best Costume Design in a Musical
 X	Tony Award for Best Costume Design in a Play
-Y	Tony Award for Best Direction of a Musical
-	Tony Award for Best Direction of a Play
-	Tony Award for Best Director
-	Tony Award for Best Featured Actor in a Musical
-	Tony Award for Best Featured Actor in a Play
+X	Tony Award for Best Direction of a Musical
+X	Tony Award for Best Direction of a Play
+X	Tony Award for Best Director
+X	Tony Award for Best Featured Actor in a Musical
+X	Tony Award for Best Featured Actor in a Play
 	Tony Award for Best Featured Actress in a Musical
 	Tony Award for Best Featured Actress in a Play
 	Tony Award for Best Lighting Design
@@ -55,12 +56,13 @@ X	Tony Award for Best Special Theatrical Event
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Direction of a Musical'
+next_key = 'Tony Award for Best Featured Actor in a Play'
 
-
+# for next_key in list(all_links_dict.keys())[:13]:
 
 wq = WikiScraper(all_links_dict[next_key])
 award_type = wq.wiki_title
+print(award_type)
 
 records = []
 
@@ -89,7 +91,8 @@ df.dropna(axis=1, how='all', inplace=True)
 n_rows_now, n_cols_now = df.shape
 print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
 
-
+# Replace nonsense values
+df.replace('—',np.nan, inplace=True)
 
 # Do a QA test:
 # Store a query and expected number of results
@@ -114,6 +117,16 @@ test_query_dict = {
 	'Tony Award for Best Conductor and Musical Director':{
 		'year>1965':0,
 		'year==1948':1
+	},
+	'Tony Award for Best Direction of a Musical':{
+		'year==2020':3,
+	},
+	'Tony Award for Best Direction of a Play':{
+		'Production=="Indecent" and Director=="Rebecca Taichman" and winner == True':1,
+	},
+	'Tony Award for Best Director':{
+		'year>1959':0,
+		'year==1947':1,
 	}
 }
 
@@ -132,9 +145,6 @@ if os.environ.get('SAVE',True):
     name_root = wq.url.split('/')[-1]
     df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
     df.to_csv(df_name, index=False)
-
-
-
 
 
 

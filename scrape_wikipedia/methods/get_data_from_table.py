@@ -8,9 +8,13 @@ def get_data_from_table(table:bs4.element.Tag):
     """
 
     # ----------------------------------------------------------------------
+
     # 1. Get your column names
     my_columns = utils.get_column_names(table)
-    # max_rowspan = 0
+
+    # If 'year' isn't in the table, skip
+    if 'year' not in (x.lower() for x in my_columns):
+        return []
 
     # get all values
     records = []
@@ -18,9 +22,6 @@ def get_data_from_table(table:bs4.element.Tag):
 
     # Default values as none...
     year = None; season=None; winner=None;
-
-    # This is used as a guard door which when closed, doesn;t allow addition of data...
-    FOUND_INDEX_COL = False
 
     # 2. Iterate through rows.
     for row in rows[1:]:
@@ -30,13 +31,12 @@ def get_data_from_table(table:bs4.element.Tag):
         # index_col = row.find('td', {'rowspan':True})
         index_col = row.select_one(
             'td[align="center"],'
-            'td[style="text-align:center"],'
+            'td[style*="text-align:center"],'
             'th[align="center"],'
-            'th[style="text-align:center"]'
+            'th[style*="text-align:center"]',
             )
 
         if index_col:
-            FOUND_INDEX_COL = True
             # Year is either bold or is the 1st link
             if index_col.find('b'):
                 year = utils.get_number_from_str(index_col.find('b').text)
@@ -60,8 +60,12 @@ def get_data_from_table(table:bs4.element.Tag):
 
         # 4. Is this row a winner?
         # Figure out if they won the tony award or not...
-        winning_attrs={'style':'background:#B0C4DE'}
-        winner = utils.is_this_a_winner(row, winning_attrs)
+        if row.get('style') and 'background:#B0C4DE' in row.get('style'):
+            winner = True
+        else:
+            winner = False
+        # winning_attrs={'style':'background:#B0C4DE'}
+        # winner = utils.is_this_a_winner(row, winning_attrs)
 
 
         # 5. Initialize record
