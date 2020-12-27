@@ -19,14 +19,14 @@ X	Tony Award for Best Actor in a Musical
 X	Tony Award for Best Actor in a Play
 X	Tony Award for Best Actress in a Musical
 X	Tony Award for Best Actress in a Play
-	Tony Award for Best Author
-	Tony Award for Best Book of a Musical
-	Tony Award for Best Choreography
-	Tony Award for Best Conductor and Musical Director
-	Tony Award for Best Costume Design
-	Tony Award for Best Costume Design in a Musical
-	Tony Award for Best Costume Design in a Play
-	Tony Award for Best Direction of a Musical
+X	Tony Award for Best Author
+X	Tony Award for Best Book of a Musical
+X	Tony Award for Best Choreography
+X	Tony Award for Best Conductor and Musical Director
+X	Tony Award for Best Costume Design
+X	Tony Award for Best Costume Design in a Musical
+X	Tony Award for Best Costume Design in a Play
+Y	Tony Award for Best Direction of a Musical
 	Tony Award for Best Direction of a Play
 	Tony Award for Best Director
 	Tony Award for Best Featured Actor in a Musical
@@ -54,7 +54,10 @@ X	Tony Award for Best Special Theatrical Event
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Actress in a Play'
+next_key = 'Tony Award for Best Direction of a Musical'
+
+
+
 wq = WikiScraper(all_links_dict[next_key])
 award_type = wq.wiki_title
 
@@ -68,23 +71,61 @@ for table in wq.tables:
 # ------------------------------------------------------------------------------
 df = pd.DataFrame(records)
 
+n_rows_orig, n_cols_orig = df.shape
+
+
 # Drop anything without a year and season
 drop_index = df[df[['year', 'season']].isna().sum(axis=1)==2].index
-print(f'dropping {len(drop_index):,} rows')
 
 # Now drop
 df.drop(drop_index, inplace=True)
+df['year'] = df['year'].astype(int)
 df.sort_values('year', inplace=True)
 
-# Now convert to an int
-df['year'] = df['year'].astype(int)
+# If an entire column is null, drop it
+df.dropna(axis=1, how='all', inplace=True)
+
+n_rows_now, n_cols_now = df.shape
+print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
 
 
-# WE DON'T NEED THIS COMPLICATED BUSINESS BELOW...
+
+
+# Do a QA test:
+# Store a query and expected number of results
+test_query_dict = {
+	'Tony Award for Best Actress in a Musical':{
+		'year==1947':0,
+		'year==2003 and Musical=="Hairspray" and Actress=="Marissa Jaret Winokur" and winner==True': 1,
+		'Musical == "The King and I"':3,
+		'Actress=="Sutton Foster"':6
+		},
+	'Tony Award for Best Actress in a Play':{
+		'year==1947':2,
+	},
+	'Tony Award for Best Author':{
+		'year>1965':0,
+		'year==1947':1
+	},
+	'Tony Award for Best Conductor and Musical Director':{
+		'year>1965':0,
+		'year==1948':1
+	}
+}
+
+if wq.wiki_title in test_query_dict:
+	my_queries = test_query_dict.get(wq.wiki_title)
+	for q, v in my_queries.items():
+		res = df.query(q)
+		assert len(res) == v
+
+
+# # WE DON'T NEED THIS COMPLICATED BUSINESS BELOW...
 # # get the 4 columns with the least na values
 # z = df.isna().sum().sort_values()
 # core_cols = z[z<z.median()].index.to_list()
 #
+# core_cols
 # if core_cols:
 #
 #     # Drop all those missing core cols -1
@@ -103,12 +144,6 @@ if os.environ.get('SAVE',True):
     name_root = wq.url.split('/')[-1]
     df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
     df.to_csv(df_name, index=False)
-
-
-
-
-
-
 
 
 

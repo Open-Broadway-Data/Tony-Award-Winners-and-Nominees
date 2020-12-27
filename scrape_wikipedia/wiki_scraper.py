@@ -25,7 +25,7 @@ class WikiScraper:
             soup: beautiful soup for this url...
         """
         self.url = url
-        self.table_attrs = kwargs.get("table_attrs", {"class": ["wikitable"], "style":True})
+        self.table_attrs = kwargs.get("table_attrs", {"class": ["wikitable"]})
         self.soup = utils.get_soup(self.url)
 
     # Soup on demand

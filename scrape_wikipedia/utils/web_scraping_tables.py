@@ -17,7 +17,7 @@ def get_width(string):
 
 
 
-def get_tables_from_url(soup, attrs:dict):
+def get_tables_from_url(soup, attrs:dict, filter_width=False):
     """
     Gets a list of tables from an input url.
 
@@ -28,23 +28,25 @@ def get_tables_from_url(soup, attrs:dict):
 
     tables = soup.findAll("table", attrs)
 
-    # Now, filter based on widths
-    table_widths = [get_width(x.get('style')) for x in tables]
-    val_counts = pd.value_counts(table_widths)
+    # Allow the user the option of filtering tables by their widths (removes smaller tables)
+    if filter_width:
+        # Now, filter based on widths
+        table_widths = [get_width(x.get('style')) for x in tables]
+        val_counts = pd.value_counts(table_widths)
 
-    # 2 or more values and the smaller table is substantially smaller
-    if val_counts.sum()!=len(tables) \
-        or (len(val_counts)==2 and (val_counts.index[0] - val_counts.index[1])>5):
-        # anything that isn't big, delete...
-        my_width = val_counts.index[0]
+        # 2 or more values and the smaller table is substantially smaller
+        if val_counts.sum()!=len(tables) \
+            or (len(val_counts)==2 and (val_counts.index[0] - val_counts.index[1])>5):
+            # anything that isn't big, delete...
+            my_width = val_counts.index[0]
 
-        # Remove small tables as well as those w/o width
-        for tb, tb_w in zip(tables, table_widths):
-            if not tb_w or tb_w<my_width:
-                tables.remove(tb)
+            # Remove small tables as well as those w/o width
+            for tb, tb_w in zip(tables, table_widths):
+                if not tb_w or tb_w<my_width:
+                    tables.remove(tb)
 
-    elif len(val_counts)>2:
-        raise ValueError('There are 3 types of tables on this page... Help...')
+        elif len(val_counts)>2:
+            raise ValueError('There are 3 types of tables on this page... Help...')
 
 
     return tables

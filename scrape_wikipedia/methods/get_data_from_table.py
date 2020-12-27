@@ -19,16 +19,25 @@ def get_data_from_table(table:bs4.element.Tag):
     # Default values as none...
     year = None; season=None; winner=None;
 
+    # This is used as a guard door which when closed, doesn;t allow addition of data...
+    FOUND_INDEX_COL = False
+
     # 2. Iterate through rows.
     for row in rows[1:]:
 
         # 3. get row indexes
         # get the year and season – then, get out of there...
         # index_col = row.find('td', {'rowspan':True})
-        index_col = row.select_one('td[align="center"], th[align="center"]')
+        index_col = row.select_one(
+            'td[align="center"], \
+            td[style="text-align:center"], \
+            th[align="center"], \
+            th[style="text-align:center"]'
+            )
         # row.find('td', {'align':'center'})
 
         if index_col:
+            FOUND_INDEX_COL = True
             # Year is either bold or is the 1st link
             if index_col.find('b'):
                 year = utils.get_number_from_str(index_col.find('b').text)
@@ -36,7 +45,7 @@ def get_data_from_table(table:bs4.element.Tag):
                 year = utils.get_number_from_str(index_col.find('a').text)
 
             season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
-            continue
+            # continue
             # n_rowspan = int(utils.remove_punctuation(index_col.get('rowspan')))
             # if n_rowspan >= max_rowspan:
             #     max_rowspan = n_rowspan
@@ -63,7 +72,7 @@ def get_data_from_table(table:bs4.element.Tag):
 
         # 6. Iterate through each row (get cell values)
         # i = 1 since index_col is i=0
-        my_cells = row.select(f'td:not(.table-na):not([colspan="{len(my_columns)+1}"])')
+        my_cells = row.select(f'td:not(.table-na):not([colspan="{len(my_columns)}"]):not([colspan="{len(my_columns)+1}"]):not([align="center"])')
 
         # If you haven't got any data, skip
         if not my_cells:
@@ -104,6 +113,7 @@ def get_data_from_table(table:bs4.element.Tag):
 
         # 9. save your row
         records.append(rec)
+
 
     # 10. All done!
     return records
