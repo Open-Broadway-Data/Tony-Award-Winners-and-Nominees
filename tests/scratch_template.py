@@ -127,6 +127,10 @@ test_query_dict = {
 	'Tony Award for Best Director':{
 		'year>1959':0,
 		'year==1947':1,
+	},
+	'Tony Award for Best Featured Actor in a Play':{
+		'year>=1990 and year <=2020 and Play.str.startswith("C")':5,
+		'year==2020 and Play=="Slave Play" and winner==False':2
 	}
 }
 
