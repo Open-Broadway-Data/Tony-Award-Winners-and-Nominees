@@ -29,12 +29,11 @@ def get_data_from_table(table:bs4.element.Tag):
         # get the year and season – then, get out of there...
         # index_col = row.find('td', {'rowspan':True})
         index_col = row.select_one(
-            'td[align="center"], \
-            td[style="text-align:center"], \
-            th[align="center"], \
-            th[style="text-align:center"]'
+            'td[align="center"],'
+            'td[style="text-align:center"],'
+            'th[align="center"],'
+            'th[style="text-align:center"]'
             )
-        # row.find('td', {'align':'center'})
 
         if index_col:
             FOUND_INDEX_COL = True
@@ -72,7 +71,13 @@ def get_data_from_table(table:bs4.element.Tag):
 
         # 6. Iterate through each row (get cell values)
         # i = 1 since index_col is i=0
-        my_cells = row.select(f'td:not(.table-na):not([colspan="{len(my_columns)}"]):not([colspan="{len(my_columns)+1}"]):not([align="center"])')
+        my_cells = row.select(
+            f'td:not(.table-na)'
+            f':not([colspan="{len(my_columns)}"])'
+            f':not([colspan="{len(my_columns)+1}"])'
+            f':not([align="center"])'
+            f':not([style="text-align:center"])'
+        )
 
         # If you haven't got any data, skip
         if not my_cells:

@@ -7,6 +7,7 @@ sys.path.append('Tony-Award-Winners-and-Nominees')
 from scrape_wikipedia import WikiScraper, base_url, utils, methods
 import pandas as pd
 
+pd.options.display.max_rows = 50
 
 # ------------------------------
 
@@ -90,7 +91,6 @@ print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} 
 
 
 
-
 # Do a QA test:
 # Store a query and expected number of results
 test_query_dict = {
@@ -100,6 +100,10 @@ test_query_dict = {
 		'Musical == "The King and I"':3,
 		'Actress=="Sutton Foster"':6
 		},
+	'Tony Award for Best Actor in a Play':{
+		'year==1947':2,
+		'Play=="Dracula"':1,
+	},
 	'Tony Award for Best Actress in a Play':{
 		'year==1947':2,
 	},
@@ -120,23 +124,7 @@ if wq.wiki_title in test_query_dict:
 		assert len(res) == v
 
 
-# # WE DON'T NEED THIS COMPLICATED BUSINESS BELOW...
-# # get the 4 columns with the least na values
-# z = df.isna().sum().sort_values()
-# core_cols = z[z<z.median()].index.to_list()
-#
-# core_cols
-# if core_cols:
-#
-#     # Drop all those missing core cols -1
-#     # core_cols = [x for x in records[0].keys() if not x.endswith('link')]
-#     drop_rows = df[df[core_cols].isna().sum(axis=1)>0].index
-#     print(f'Dropping {len(drop_rows):,} rows')
-#     df.drop(drop_rows, inplace=True)
-#     df.dropna(axis=1, how='all', inplace=True)
 
-
-# df.isna().sum(axis=1).value_counts()
 
 # If you want to save
 if os.environ.get('SAVE',True):
