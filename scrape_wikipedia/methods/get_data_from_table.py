@@ -65,6 +65,9 @@ def get_data_from_table(table:bs4.element.Tag):
         # i = 1 since index_col is i=0
         my_cells = row.select('td:not(.table-na)')
 
+        # If you haven't got any data, skip
+        if not my_cells:
+            continue
         # I'm not sure we should do this...
         # if len(my_cells)==1:
         #     continue
