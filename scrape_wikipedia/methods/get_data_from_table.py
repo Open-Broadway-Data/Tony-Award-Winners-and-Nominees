@@ -63,7 +63,7 @@ def get_data_from_table(table:bs4.element.Tag):
 
         # 6. Iterate through each row (get cell values)
         # i = 1 since index_col is i=0
-        my_cells = row.select('td:not(.table-na)')
+        my_cells = row.select(f'td:not(.table-na):not([colspan="{len(my_columns)+1}"])')
 
         # If you haven't got any data, skip
         if not my_cells:

@@ -15,10 +15,10 @@ all_links_dict = methods.get_dict_of_links_for_tony_awards()
 
 """
 Here's the ones we've tested:
-	Tony Award for Best Actor in a Musical
-	Tony Award for Best Actor in a Play
-	Tony Award for Best Actress in a Musical
-	Tony Award for Best Actress in a Play
+X	Tony Award for Best Actor in a Musical
+X	Tony Award for Best Actor in a Play
+X	Tony Award for Best Actress in a Musical
+X	Tony Award for Best Actress in a Play
 	Tony Award for Best Author
 	Tony Award for Best Book of a Musical
 	Tony Award for Best Choreography
@@ -54,11 +54,9 @@ X	Tony Award for Best Special Theatrical Event
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Actor in a Musical'
+next_key = 'Tony Award for Best Actress in a Play'
 wq = WikiScraper(all_links_dict[next_key])
 award_type = wq.wiki_title
-
-
 
 records = []
 
@@ -69,14 +67,17 @@ for table in wq.tables:
 
 # ------------------------------------------------------------------------------
 df = pd.DataFrame(records)
-n_orig = len(df)
+
+# Drop anything without a year and season
+drop_index = df[df[['year', 'season']].isna().sum(axis=1)==2].index
+print(f'dropping {len(drop_index):,} rows')
 
 # Now drop
-df = df[~df['year'].isna()]
-n_new = len(df)
-
-print(f'dropping {n_orig-n_new:,} rows')
+df.drop(drop_index, inplace=True)
 df.sort_values('year', inplace=True)
+
+# Now convert to an int
+df['year'] = df['year'].astype(int)
 
 
 # WE DON'T NEED THIS COMPLICATED BUSINESS BELOW...
@@ -102,6 +103,11 @@ if os.environ.get('SAVE',True):
     name_root = wq.url.split('/')[-1]
     df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
     df.to_csv(df_name, index=False)
+
+
+
+
+
 
 
 
