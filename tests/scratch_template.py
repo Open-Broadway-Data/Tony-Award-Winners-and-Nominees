@@ -33,12 +33,12 @@ X	Tony Award for Best Direction of a Play
 X	Tony Award for Best Director
 X	Tony Award for Best Featured Actor in a Musical
 X	Tony Award for Best Featured Actor in a Play
-	Tony Award for Best Featured Actress in a Musical
-	Tony Award for Best Featured Actress in a Play
-	Tony Award for Best Lighting Design
-	Tony Award for Best Lighting Design in a Musical
-	Tony Award for Best Lighting Design in a Play
-	Tony Award for Best Musical
+X	Tony Award for Best Featured Actress in a Musical
+N	Tony Award for Best Featured Actress in a Play  <-------- This one will need work. It has a non-standard format. Consider revising directly on Wikipedia...
+N	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
+X	Tony Award for Best Lighting Design in a Musical
+X	Tony Award for Best Lighting Design in a Play
+X	Tony Award for Best Musical
 	Tony Award for Best Newcomer
 	Tony Award for Best Orchestrations
 	Tony Award for Best Original Score
@@ -56,7 +56,7 @@ X	Tony Award for Best Special Theatrical Event
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Featured Actor in a Play'
+next_key = 'Tony Award for Best Musical'
 
 # for next_key in list(all_links_dict.keys())[:13]:
 
@@ -131,6 +131,9 @@ test_query_dict = {
 	'Tony Award for Best Featured Actor in a Play':{
 		'year>=1990 and year <=2020 and Play.str.startswith("C")':5,
 		'year==2020 and Play=="Slave Play" and winner==False':2
+	},
+	'Tony Award for Best Lighting Design':{
+		'Designer.str.contains("Akerlind")':7,
 	}
 }
 
@@ -143,12 +146,17 @@ if wq.wiki_title in test_query_dict:
 
 
 
+
+
 # If you want to save
 if os.environ.get('SAVE',True):
     os.makedirs('data', exist_ok=True)
     name_root = wq.url.split('/')[-1]
     df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
     df.to_csv(df_name, index=False)
+
+
+
 
 
 

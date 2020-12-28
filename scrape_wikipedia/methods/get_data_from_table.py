@@ -45,18 +45,6 @@ def get_data_from_table(table:bs4.element.Tag):
 
             season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
             # continue
-            # n_rowspan = int(utils.remove_punctuation(index_col.get('rowspan')))
-            # if n_rowspan >= max_rowspan:
-            #     max_rowspan = n_rowspan
-            #
-            #     # Get the year and skip to the next item in the loop
-            #     year = int(index_col.find('b').text)
-            #     season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
-            #     continue
-            #
-            # # Continue as normal
-            # else:
-            #     None
 
         # 4. Is this row a winner?
         # Figure out if they won the tony award or not...
