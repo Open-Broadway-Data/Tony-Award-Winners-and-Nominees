@@ -39,12 +39,12 @@ N	Tony Award for Best Lighting Design <-------- Has data for best play and best 
 X	Tony Award for Best Lighting Design in a Musical
 X	Tony Award for Best Lighting Design in a Play
 X	Tony Award for Best Musical
-	Tony Award for Best Newcomer
-	Tony Award for Best Orchestrations
-	Tony Award for Best Original Score
-	Tony Award for Best Play
-	Tony Award for Best Revival
-	Tony Award for Best Revival of a Musical
+X	Tony Award for Best Newcomer
+X	Tony Award for Best Orchestrations
+X	Tony Award for Best Original Score
+X	Tony Award for Best Play
+X	Tony Award for Best Revival
+N	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
 	Tony Award for Best Revival of a Play
 	Tony Award for Best Scenic Design
 	Tony Award for Best Scenic Design in a Musical
@@ -56,7 +56,7 @@ X	Tony Award for Best Special Theatrical Event
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Musical'
+next_key = 'Tony Award for Best Revival of a Musical'
 
 # for next_key in list(all_links_dict.keys())[:13]:
 
@@ -154,9 +154,6 @@ if os.environ.get('SAVE',True):
     name_root = wq.url.split('/')[-1]
     df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
     df.to_csv(df_name, index=False)
-
-
-
 
 
 
