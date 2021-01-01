@@ -45,18 +45,18 @@ X	Tony Award for Best Original Score
 X	Tony Award for Best Play
 X	Tony Award for Best Revival
 N	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
-	Tony Award for Best Revival of a Play
-	Tony Award for Best Scenic Design
-	Tony Award for Best Scenic Design in a Musical
-	Tony Award for Best Scenic Design in a Play
-	Tony Award for Best Sound Design
+X	Tony Award for Best Revival of a Play
+X	Tony Award for Best Scenic Design
+X	Tony Award for Best Scenic Design in a Musical
+X	Tony Award for Best Scenic Design in a Play
+N	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
 X	Tony Award for Best Special Theatrical Event
-	Tony Award for Best Stage Technician
+N	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
 """
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Revival of a Musical'
+next_key = 'Tony Award for Best Stage Technician'
 
 # for next_key in list(all_links_dict.keys())[:13]:
 
