@@ -17,41 +17,41 @@ all_links_dict = methods.get_dict_of_links_for_tony_awards()
 
 """
 Here's the ones we've tested:
-X	Tony Award for Best Actor in a Musical
-X	Tony Award for Best Actor in a Play
-X	Tony Award for Best Actress in a Musical
-X	Tony Award for Best Actress in a Play
-X	Tony Award for Best Author
-X	Tony Award for Best Book of a Musical
-X	Tony Award for Best Choreography
-X	Tony Award for Best Conductor and Musical Director
-X	Tony Award for Best Costume Design
-X	Tony Award for Best Costume Design in a Musical
-X	Tony Award for Best Costume Design in a Play
-X	Tony Award for Best Direction of a Musical
-X	Tony Award for Best Direction of a Play
-X	Tony Award for Best Director
-X	Tony Award for Best Featured Actor in a Musical
-X	Tony Award for Best Featured Actor in a Play
-X	Tony Award for Best Featured Actress in a Musical
-N	Tony Award for Best Featured Actress in a Play  <-------- This one will need work. It has a non-standard format. Consider revising directly on Wikipedia...
-N	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
-X	Tony Award for Best Lighting Design in a Musical
-X	Tony Award for Best Lighting Design in a Play
-X	Tony Award for Best Musical
-X	Tony Award for Best Newcomer
-X	Tony Award for Best Orchestrations
-X	Tony Award for Best Original Score
-X	Tony Award for Best Play
-X	Tony Award for Best Revival
-N	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
-X	Tony Award for Best Revival of a Play
-X	Tony Award for Best Scenic Design
-X	Tony Award for Best Scenic Design in a Musical
-X	Tony Award for Best Scenic Design in a Play
-N	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
-X	Tony Award for Best Special Theatrical Event
-N	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
+- [X]	Tony Award for Best Actor in a Musical
+- [X]	Tony Award for Best Actor in a Play
+- [X]	Tony Award for Best Actress in a Musical
+- [X]	Tony Award for Best Actress in a Play
+- [X]	Tony Award for Best Author
+- [X]	Tony Award for Best Book of a Musical
+- [X]	Tony Award for Best Choreography
+- [X]	Tony Award for Best Conductor and Musical Director
+- [X]	Tony Award for Best Costume Design
+- [X]	Tony Award for Best Costume Design in a Musical
+- [X]	Tony Award for Best Costume Design in a Play
+- [X]	Tony Award for Best Direction of a Musical
+- [X]	Tony Award for Best Direction of a Play
+- [X]	Tony Award for Best Director
+- [X]	Tony Award for Best Featured Actor in a Musical
+- [X]	Tony Award for Best Featured Actor in a Play
+- [X]	Tony Award for Best Featured Actress in a Musical
+- []	Tony Award for Best Featured Actress in a Play  <-------- This one will need work. It has a non-standard format. Consider revising directly on Wikipedia...
+- []	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
+- [X]	Tony Award for Best Lighting Design in a Musical
+- [X]	Tony Award for Best Lighting Design in a Play
+- [X]	Tony Award for Best Musical
+- [X]	Tony Award for Best Newcomer
+- [X]	Tony Award for Best Orchestrations
+- [X]	Tony Award for Best Original Score
+- [X]	Tony Award for Best Play
+- [X]	Tony Award for Best Revival
+- []	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
+- [X]	Tony Award for Best Revival of a Play
+- [X]	Tony Award for Best Scenic Design
+- [X]	Tony Award for Best Scenic Design in a Musical
+- [X]	Tony Award for Best Scenic Design in a Play
+- []	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
+- [X]	Tony Award for Best Special Theatrical Event
+- []	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
 """
 
 
