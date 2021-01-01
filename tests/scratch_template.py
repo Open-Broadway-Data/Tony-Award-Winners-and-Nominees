@@ -154,9 +154,3 @@ if os.environ.get('SAVE',True):
     name_root = wq.url.split('/')[-1]
     df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
     df.to_csv(df_name, index=False)
-
-
-
-
-
-#
