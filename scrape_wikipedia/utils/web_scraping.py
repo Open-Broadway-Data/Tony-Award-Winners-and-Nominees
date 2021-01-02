@@ -43,12 +43,18 @@ def get_number(string):
 # ---------------------------------------------------
 
 def get_text_from_tag(string:str, attr=None):
+    # if isinstance(string, str):
+    #     return string.strip()
+
     if not string:
         return None
 
     # doesn't always need to look something up...
     if attr:
         string = string.get(attr)
+
+    if hasattr(string, 'text'):
+        string = string.text
 
     return remove_punctuation(string, exceptions=['*', '†']).strip()
 

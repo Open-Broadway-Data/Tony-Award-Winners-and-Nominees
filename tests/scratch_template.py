@@ -65,27 +65,81 @@ award_type = wq.wiki_title
 print(award_type)
 
 records = []
-
+records_alt = []
 # Put them all together
 for table in wq.tables:
+	# get regular way
 	data = wq.get_data_from_table(table)
 	records.extend(data)
-	break
 
-data
+	# get alt way
+	data_alt = methods.get_data_from_table_alt(table)
+	records_alt.extend(data_alt)
+
+df = pd.DataFrame(records_alt)
+df.drop_duplicates(inplace=True)
+df.replace({'N/A':None}, inplace=True)
+df.sort_values(by='year', inplace=True)
+
+drop_empty_rows = df[df.drop(columns=['year','season','season_link', 'winner']).isna().all(axis=1)].index
+df.drop(drop_empty_rows, inplace=True)
+df.reset_index(drop=True, inplace=True)
 
 
-new_table = methods.get_data_from_table_alt(table)
-new_table
 
-# col_names = new_table.pop(0)
+
+# col_names = [utils.get_text_from_tag(x.text) for x in new_table[0]]
+
+
+# Pre-populate a list of desired length – faster than a blank list and appending...
+# records = [None for _ in range(len(new_table)-1)]
 #
-# records = []
-# for row in new_table:
-# 	rec = {col:row[i] for i,col in enumerate(col_names)}
-# 	records.append(rec)
-# records
+# for row_idx, row in enumerate(new_table[1:]):
+#
+# 	year = utils.get_number_from_str(row[0].select_one('b').text)
+# 	season = row[0].select_one('a').text
+# 	season_link = row[0].select_one('a[href]')
+# 	if season_link:
+# 		season_link = season_link.get('href')
+#
+# 	rec = dict(
+# 		year=year,
+# 		season=season,
+# 		season_link=season_link
+# 	)
+#
+# 	# Go through each of the cells and add the value
+# 	for i, cell in enumerate(row[1:]):
+# 		if not cell:
+# 			continue
+# 		my_col = col_names[i+1]
+# 		rec[my_col] = cell.get_text(strip=True)
+# 		# if there's a link, save it
+# 		if cell.select_one('a[href]'):
+# 			rec[my_col + '_link'] = cell.select_one('a[href]').get('href')
+#
+# 	# Save your record
+# 	records[row_idx] = rec
 
+pd.DataFrame(records)
+
+row = new_table[4]
+
+rec
+
+col_name = my_columns[i]
+val = utils.get_text_from_tag(cell.text)
+
+# 7. Store your values
+rec.update({col_name: val})
+# get the text
+
+# 8. Augement values, if necessary
+# if there's a link, get the link
+if cell.find("a", {"href":True}):
+	href = cell.find("a").get("href")
+	href = 'https://en.wikipedia.org' + href
+	rec.update({col_name + "_link": href})
 
 
 

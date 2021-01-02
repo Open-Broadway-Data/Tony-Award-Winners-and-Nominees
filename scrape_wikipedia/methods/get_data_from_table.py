@@ -90,9 +90,9 @@ def get_data_from_table(table:bs4.element.Tag):
 
             #how many rows does this cell span?
             n_rows = int(utils.remove_punctuation(cell.get("rowspan", 1)))
-            if n_rows>0:
-                print(f'Do something here... Current column = {i}; current row = {len(records)}')
-                print(len(my_cells), n_cols)
+            # if n_rows>0:
+            #     print(f'Do something here... Current column = {i}; current row = {len(records)}')
+            #     print(len(my_cells), n_cols)
 
             for j in range(n_cols):
 
