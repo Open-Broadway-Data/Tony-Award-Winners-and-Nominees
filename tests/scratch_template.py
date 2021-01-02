@@ -30,14 +30,14 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Costume Design in a Play
 - [X]	Tony Award for Best Direction of a Musical
 - [X]	Tony Award for Best Direction of a Play
-- [ ]	Tony Award for Best Director
-- [ ]	Tony Award for Best Featured Actor in a Musical
-- [ ]	Tony Award for Best Featured Actor in a Play
-- [ ]	Tony Award for Best Featured Actress in a Musical
-- [ ]	Tony Award for Best Featured Actress in a Play  <-------- This one will need work. It has a non-standard format. Consider revising directly on Wikipedia...
-- [ ]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
-- [ ]	Tony Award for Best Lighting Design in a Musical
-- [ ]	Tony Award for Best Lighting Design in a Play
+- [X]	Tony Award for Best Director
+- [X]	Tony Award for Best Featured Actor in a Musical
+- [X]	Tony Award for Best Featured Actor in a Play
+- [X]	Tony Award for Best Featured Actress in a Musical
+- [ ]	Tony Award for Best Featured Actress in a Play  <-------- Consider revising directly on Wikipedia...
+- [X]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
+- [X]	Tony Award for Best Lighting Design in a Musical
+- [X]	Tony Award for Best Lighting Design in a Play
 - [ ]	Tony Award for Best Musical
 - [ ]	Tony Award for Best Newcomer
 - [ ]	Tony Award for Best Orchestrations
@@ -56,9 +56,11 @@ Here's the ones we've tested:
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Conductor and Musical Director'
+next_key = 'Tony Award for Best Lighting Design in a Musical'
 
-for next_key in list(all_links_dict.keys())[:18]:
+len(all_links_dict)
+
+for next_key in list(all_links_dict.keys()):
 
 	wq = WikiScraper(all_links_dict[next_key])
 	award_type = wq.wiki_title
@@ -163,6 +165,10 @@ for next_key in list(all_links_dict.keys())[:18]:
 			'year>=1990 and year <=2020 and play.str.startswith("C")':5,
 			'year==2020 and play=="Slave Play" and winner==False':2
 		},
+		'Tony Award for Best Featured Actress in a Play':{
+			'actress.astype("str").str.contains("l")':37,
+			'work.astype("str").str.contains("o")':46
+		},
 		'Tony Award for Best Lighting Design':{
 			'designer.str.contains("Akerlind")':7,
 		}
@@ -184,15 +190,6 @@ for next_key in list(all_links_dict.keys())[:18]:
 	    name_root = wq.url.split('/')[-1]
 	    df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
 	    df.to_csv(df_name, index=False)
-
-
-
-
-
-
-
-
-
 
 
 
