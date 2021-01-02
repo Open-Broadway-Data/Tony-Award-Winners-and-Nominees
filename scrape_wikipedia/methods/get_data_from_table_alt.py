@@ -27,6 +27,9 @@ def get_data_from_table_alt(table:bs4.element.Tag):
             # we are only interested in tables which correspond with tony awards
             continue
 
+        # If this is a null row, this is how you'll know..
+        if not  row[0].select_one('a'):
+            continue
         year = utils.get_number_from_str(row[0].text[:4])
         season = row[0].select_one('a').text
         season_link = row[0].select_one('a[href]')
