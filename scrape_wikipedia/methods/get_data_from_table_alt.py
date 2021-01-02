@@ -19,11 +19,16 @@ def get_data_from_table_alt(table:bs4.element.Tag):
 
     for row_idx, row in enumerate(new_table):
 
+        # If all the values are equal, skip...
+        if len(set(row)) <= 2:
+            continue
+
         if col_names[0].lower()!='year':
             # we are only interested in tables which correspond with tony awards
             continue
 
-        year = utils.get_number_from_str(row[0].select_one('b').text)
+
+        year = utils.get_number_from_str(row[0].text[:4])
         season = row[0].select_one('a').text
         season_link = row[0].select_one('a[href]')
         if season_link:
@@ -59,7 +64,7 @@ def get_data_from_table_alt(table:bs4.element.Tag):
             # if there's a link, save it
             if cell.select_one('a[href]'):
                 additional_data[my_col + '_link'] = 'https://en.wikipedia.org' + cell.select_one('a[href]').get('href')
-                
+
         # Only store values when you have em'
         if additional_data:
             rec = {**rec, **additional_data}
@@ -103,6 +108,9 @@ def insert_into_table(table, row, col, element):
         if element.has_attr("colspan"):
             span = int(element["colspan"])
             for i in range(1, span):
+                # allow for incorrect colspans which "overspan" a table's width
+                if col+i >= len(table[row]):
+                    return
                 table[row][col+i] = value
         if element.has_attr("rowspan"):
             span = int(element["rowspan"])

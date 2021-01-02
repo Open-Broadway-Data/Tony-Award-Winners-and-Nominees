@@ -18,7 +18,7 @@ all_links_dict = methods.get_dict_of_links_for_tony_awards()
 """
 Here's the ones we've tested:
 - [X]	Tony Award for Best Actor in a Musical
-- [ ]	Tony Award for Best Actor in a Play
+- [X]	Tony Award for Best Actor in a Play
 - [ ]	Tony Award for Best Actress in a Musical
 - [ ]	Tony Award for Best Actress in a Play
 - [ ]	Tony Award for Best Author
@@ -56,13 +56,14 @@ Here's the ones we've tested:
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Actor in a Musical'
+next_key = 'Tony Award for Best Actor in a Play'
 
 # for next_key in list(all_links_dict.keys())[:13]:
 
 wq = WikiScraper(all_links_dict[next_key])
 award_type = wq.wiki_title
 print(award_type)
+print(wq.url)
 
 records = []
 records_alt = []
@@ -75,6 +76,14 @@ for table in wq.tables:
 	# get alt way
 	data_alt = methods.get_data_from_table_alt(table)
 	records_alt.extend(data_alt)
+
+
+
+
+
+
+
+
 
 # ------------------------------------------------------------------------------
 
@@ -101,6 +110,7 @@ n_rows_now, n_cols_now = df.shape
 print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
 
 
+df
 # ------------------------------------------------------------------------------
 # df = pd.DataFrame(records)
 #
@@ -130,12 +140,12 @@ test_query_dict = {
 	'Tony Award for Best Actress in a Musical':{
 		'year==1947':0,
 		'year==2003 and Musical=="Hairspray" and Actress=="Marissa Jaret Winokur" and winner==True': 1,
-		'Musical == "The King and I"':3,
-		'Actress=="Sutton Foster"':6
+		'musical == "The King and I"':3,
+		'actress=="Sutton Foster"':6
 		},
 	'Tony Award for Best Actor in a Play':{
 		'year==1947':2,
-		'Play=="Dracula"':1,
+		'play=="Dracula"':1,
 	},
 	'Tony Award for Best Actress in a Play':{
 		'year==1947':2,
@@ -152,7 +162,7 @@ test_query_dict = {
 		'year==2020':3,
 	},
 	'Tony Award for Best Direction of a Play':{
-		'Production=="Indecent" and Director=="Rebecca Taichman" and winner == True':1,
+		'production=="Indecent" and Director=="Rebecca Taichman" and winner == True':1,
 	},
 	'Tony Award for Best Director':{
 		'year>1959':0,
@@ -163,7 +173,7 @@ test_query_dict = {
 		'year==2020 and Play=="Slave Play" and winner==False':2
 	},
 	'Tony Award for Best Lighting Design':{
-		'Designer.str.contains("Akerlind")':7,
+		'designer.str.contains("Akerlind")':7,
 	}
 }
 
