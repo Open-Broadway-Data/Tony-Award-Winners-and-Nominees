@@ -27,7 +27,6 @@ def get_data_from_table_alt(table:bs4.element.Tag):
             # we are only interested in tables which correspond with tony awards
             continue
 
-
         year = utils.get_number_from_str(row[0].text[:4])
         season = row[0].select_one('a').text
         season_link = row[0].select_one('a[href]')
@@ -110,11 +109,22 @@ def insert_into_table(table, row, col, element):
             for i in range(1, span):
                 # allow for incorrect colspans which "overspan" a table's width
                 if col+i >= len(table[row]):
-                    return
+                    continue
                 table[row][col+i] = value
         if element.has_attr("rowspan"):
             span = int(element["rowspan"])
             for i in range(1, span):
+                # allow for incorrect rowspans which "overspan" a table's length
+                # if row+1 >=len(table[col]):
+                    # return
+                # print(
+                #     f'row={row+i}, n_rows={len(table)}, '
+                #     f'col={col}, n_cols={len(table[row])}'
+                #     )
+                # This row is attempting to overwrite a row which doesn't exist
+                if row+i>=len(table):
+                    continue
+                # print(table[row+1])
                 table[row+i][col] = value
     else:
         insert_into_table(table, row, col + 1, element)

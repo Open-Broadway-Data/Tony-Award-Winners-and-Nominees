@@ -19,7 +19,7 @@ all_links_dict = methods.get_dict_of_links_for_tony_awards()
 Here's the ones we've tested:
 - [X]	Tony Award for Best Actor in a Musical
 - [X]	Tony Award for Best Actor in a Play
-- [ ]	Tony Award for Best Actress in a Musical
+- [X]	Tony Award for Best Actress in a Musical
 - [ ]	Tony Award for Best Actress in a Play
 - [ ]	Tony Award for Best Author
 - [ ]	Tony Award for Best Book of a Musical
@@ -56,7 +56,7 @@ Here's the ones we've tested:
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Actor in a Play'
+next_key = 'Tony Award for Best Actor in a Musical'
 
 # for next_key in list(all_links_dict.keys())[:13]:
 
@@ -110,7 +110,8 @@ n_rows_now, n_cols_now = df.shape
 print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
 
 
-df
+
+
 # ------------------------------------------------------------------------------
 # df = pd.DataFrame(records)
 #
@@ -137,9 +138,18 @@ df
 # Do a QA test:
 # Store a query and expected number of results
 test_query_dict = {
+	'Tony Award for Best Actor in a Musical':{
+		'musical.str.contains("Angel") and year<=2000':3,
+		'musical=="Hamilton" and year==2016 and musical_link.notnull()':2,
+		'actor=="Lin-Manuel Miranda" and winner==False':2,
+		'actor.str.contains("z") and winner==True and year<2020':10,
+
+	},
 	'Tony Award for Best Actress in a Musical':{
 		'year==1947':0,
-		'year==2003 and Musical=="Hairspray" and Actress=="Marissa Jaret Winokur" and winner==True': 1,
+		'year==1997': 4,
+		'year==2003 and musical=="Hairspray" and actress=="Marissa Jaret Winokur" and winner==True': 1,
+		'actress=="Marin Mazzie" and winner==False': 2,
 		'musical == "The King and I"':3,
 		'actress=="Sutton Foster"':6
 		},
@@ -162,15 +172,15 @@ test_query_dict = {
 		'year==2020':3,
 	},
 	'Tony Award for Best Direction of a Play':{
-		'production=="Indecent" and Director=="Rebecca Taichman" and winner == True':1,
+		'production=="Indecent" and director=="Rebecca Taichman" and winner == True':1,
 	},
 	'Tony Award for Best Director':{
 		'year>1959':0,
 		'year==1947':1,
 	},
 	'Tony Award for Best Featured Actor in a Play':{
-		'year>=1990 and year <=2020 and Play.str.startswith("C")':5,
-		'year==2020 and Play=="Slave Play" and winner==False':2
+		'year>=1990 and year <=2020 and play.str.startswith("C")':5,
+		'year==2020 and play=="Slave Play" and winner==False':2
 	},
 	'Tony Award for Best Lighting Design':{
 		'designer.str.contains("Akerlind")':7,
