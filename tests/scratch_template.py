@@ -68,11 +68,29 @@ records = []
 
 # Put them all together
 for table in wq.tables:
-    data = wq.get_data_from_table(table)
-    records.extend(data)
+	data = wq.get_data_from_table(table)
+	records.extend(data)
+	break
+
+data
 
 
-# Now try them using a diff method...
+new_table = methods.get_data_from_table_alt(table)
+new_table
+
+# col_names = new_table.pop(0)
+#
+# records = []
+# for row in new_table:
+# 	rec = {col:row[i] for i,col in enumerate(col_names)}
+# 	records.append(rec)
+# records
+
+
+
+
+
+
 
 
 # ------------------------------------------------------------------------------
