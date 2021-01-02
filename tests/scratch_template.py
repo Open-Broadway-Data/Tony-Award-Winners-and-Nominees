@@ -38,17 +38,17 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
 - [X]	Tony Award for Best Lighting Design in a Musical
 - [X]	Tony Award for Best Lighting Design in a Play
-- [ ]	Tony Award for Best Musical
-- [ ]	Tony Award for Best Newcomer
-- [ ]	Tony Award for Best Orchestrations
-- [ ]	Tony Award for Best Original Score
-- [ ]	Tony Award for Best Play
-- [ ]	Tony Award for Best Revival
-- [ ]	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
-- [ ]	Tony Award for Best Revival of a Play
-- [ ]	Tony Award for Best Scenic Design
-- [ ]	Tony Award for Best Scenic Design in a Musical
-- [ ]	Tony Award for Best Scenic Design in a Play
+- [X]	Tony Award for Best Musical
+- [X]	Tony Award for Best Newcomer
+- [X]	Tony Award for Best Orchestrations
+- [X]	Tony Award for Best Original Score
+- [X]	Tony Award for Best Play
+- [X]	Tony Award for Best Revival
+- [X]	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
+- [X]	Tony Award for Best Revival of a Play
+- [X]	Tony Award for Best Scenic Design
+- [X]	Tony Award for Best Scenic Design in a Musical
+- [X]	Tony Award for Best Scenic Design in a Play
 - [ ]	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
 - [ ]	Tony Award for Best Special Theatrical Event
 - [ ]	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
@@ -62,10 +62,15 @@ len(all_links_dict)
 
 for next_key in list(all_links_dict.keys()):
 
+
 	wq = WikiScraper(all_links_dict[next_key])
 	award_type = wq.wiki_title
 	print(award_type)
 	print(wq.url)
+
+	if award_type=='Tony Award for Best Sound Design':
+		print('Page has no tables')
+		continue
 
 	records = []
 	records_alt = []
@@ -191,6 +196,6 @@ for next_key in list(all_links_dict.keys()):
 	    df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
 	    df.to_csv(df_name, index=False)
 
-
+wq.tables
 
 #
