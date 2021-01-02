@@ -58,8 +58,8 @@ def get_data_from_table_alt(table:bs4.element.Tag):
             additional_data[my_col] = cell.get_text(strip=True)
             # if there's a link, save it
             if cell.select_one('a[href]'):
-                additional_data[my_col + '_link'] = cell.select_one('a[href]').get('href')
-
+                additional_data[my_col + '_link'] = 'https://en.wikipedia.org' + cell.select_one('a[href]').get('href')
+                
         # Only store values when you have em'
         if additional_data:
             rec = {**rec, **additional_data}

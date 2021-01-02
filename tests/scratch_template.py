@@ -18,39 +18,39 @@ all_links_dict = methods.get_dict_of_links_for_tony_awards()
 """
 Here's the ones we've tested:
 - [X]	Tony Award for Best Actor in a Musical
-- [X]	Tony Award for Best Actor in a Play
-- [X]	Tony Award for Best Actress in a Musical
-- [X]	Tony Award for Best Actress in a Play
-- [X]	Tony Award for Best Author
-- [X]	Tony Award for Best Book of a Musical
-- [X]	Tony Award for Best Choreography
-- [X]	Tony Award for Best Conductor and Musical Director
-- [X]	Tony Award for Best Costume Design
-- [X]	Tony Award for Best Costume Design in a Musical
-- [X]	Tony Award for Best Costume Design in a Play
-- [X]	Tony Award for Best Direction of a Musical
-- [X]	Tony Award for Best Direction of a Play
-- [X]	Tony Award for Best Director
-- [X]	Tony Award for Best Featured Actor in a Musical
-- [X]	Tony Award for Best Featured Actor in a Play
-- [X]	Tony Award for Best Featured Actress in a Musical
+- [ ]	Tony Award for Best Actor in a Play
+- [ ]	Tony Award for Best Actress in a Musical
+- [ ]	Tony Award for Best Actress in a Play
+- [ ]	Tony Award for Best Author
+- [ ]	Tony Award for Best Book of a Musical
+- [ ]	Tony Award for Best Choreography
+- [ ]	Tony Award for Best Conductor and Musical Director
+- [ ]	Tony Award for Best Costume Design
+- [ ]	Tony Award for Best Costume Design in a Musical
+- [ ]	Tony Award for Best Costume Design in a Play
+- [ ]	Tony Award for Best Direction of a Musical
+- [ ]	Tony Award for Best Direction of a Play
+- [ ]	Tony Award for Best Director
+- [ ]	Tony Award for Best Featured Actor in a Musical
+- [ ]	Tony Award for Best Featured Actor in a Play
+- [ ]	Tony Award for Best Featured Actress in a Musical
 - [ ]	Tony Award for Best Featured Actress in a Play  <-------- This one will need work. It has a non-standard format. Consider revising directly on Wikipedia...
 - [ ]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
-- [X]	Tony Award for Best Lighting Design in a Musical
-- [X]	Tony Award for Best Lighting Design in a Play
-- [X]	Tony Award for Best Musical
-- [X]	Tony Award for Best Newcomer
-- [X]	Tony Award for Best Orchestrations
-- [X]	Tony Award for Best Original Score
-- [X]	Tony Award for Best Play
-- [X]	Tony Award for Best Revival
+- [ ]	Tony Award for Best Lighting Design in a Musical
+- [ ]	Tony Award for Best Lighting Design in a Play
+- [ ]	Tony Award for Best Musical
+- [ ]	Tony Award for Best Newcomer
+- [ ]	Tony Award for Best Orchestrations
+- [ ]	Tony Award for Best Original Score
+- [ ]	Tony Award for Best Play
+- [ ]	Tony Award for Best Revival
 - [ ]	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
-- [X]	Tony Award for Best Revival of a Play
-- [X]	Tony Award for Best Scenic Design
-- [X]	Tony Award for Best Scenic Design in a Musical
-- [X]	Tony Award for Best Scenic Design in a Play
+- [ ]	Tony Award for Best Revival of a Play
+- [ ]	Tony Award for Best Scenic Design
+- [ ]	Tony Award for Best Scenic Design in a Musical
+- [ ]	Tony Award for Best Scenic Design in a Play
 - [ ]	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
-- [X]	Tony Award for Best Special Theatrical Event
+- [ ]	Tony Award for Best Special Theatrical Event
 - [ ]	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
 """
 
@@ -69,106 +69,60 @@ records_alt = []
 # Put them all together
 for table in wq.tables:
 	# get regular way
-	data = wq.get_data_from_table(table)
-	records.extend(data)
+	# data = wq.get_data_from_table(table)
+	# records.extend(data)
 
 	# get alt way
 	data_alt = methods.get_data_from_table_alt(table)
 	records_alt.extend(data_alt)
 
-df = pd.DataFrame(records_alt)
-df.drop_duplicates(inplace=True)
-df.replace({'N/A':None}, inplace=True)
-df.sort_values(by='year', inplace=True)
-
-drop_empty_rows = df[df.drop(columns=['year','season','season_link', 'winner']).isna().all(axis=1)].index
-df.drop(drop_empty_rows, inplace=True)
-df.reset_index(drop=True, inplace=True)
-
-
-
-
-# col_names = [utils.get_text_from_tag(x.text) for x in new_table[0]]
-
-
-# Pre-populate a list of desired length – faster than a blank list and appending...
-# records = [None for _ in range(len(new_table)-1)]
-#
-# for row_idx, row in enumerate(new_table[1:]):
-#
-# 	year = utils.get_number_from_str(row[0].select_one('b').text)
-# 	season = row[0].select_one('a').text
-# 	season_link = row[0].select_one('a[href]')
-# 	if season_link:
-# 		season_link = season_link.get('href')
-#
-# 	rec = dict(
-# 		year=year,
-# 		season=season,
-# 		season_link=season_link
-# 	)
-#
-# 	# Go through each of the cells and add the value
-# 	for i, cell in enumerate(row[1:]):
-# 		if not cell:
-# 			continue
-# 		my_col = col_names[i+1]
-# 		rec[my_col] = cell.get_text(strip=True)
-# 		# if there's a link, save it
-# 		if cell.select_one('a[href]'):
-# 			rec[my_col + '_link'] = cell.select_one('a[href]').get('href')
-#
-# 	# Save your record
-# 	records[row_idx] = rec
-
-pd.DataFrame(records)
-
-row = new_table[4]
-
-rec
-
-col_name = my_columns[i]
-val = utils.get_text_from_tag(cell.text)
-
-# 7. Store your values
-rec.update({col_name: val})
-# get the text
-
-# 8. Augement values, if necessary
-# if there's a link, get the link
-if cell.find("a", {"href":True}):
-	href = cell.find("a").get("href")
-	href = 'https://en.wikipedia.org' + href
-	rec.update({col_name + "_link": href})
-
-
-
-
-
-
-
 # ------------------------------------------------------------------------------
-df = pd.DataFrame(records)
 
+df = pd.DataFrame(records_alt)
 n_rows_orig, n_cols_orig = df.shape
 
-
-# Drop anything without a year and season
-drop_index = df[df[['year', 'season']].isna().sum(axis=1)==2].index
-
-# Now drop
-df.drop(drop_index, inplace=True)
-df['year'] = df['year'].astype(int)
-df.sort_values('year', inplace=True)
+# Drop rows which don't have values outside of core
+df.replace({'N/A':np.nan, '—': np.nan}, inplace=True)
+df.drop_duplicates(inplace=True)
+drop_empty_rows = df[df.drop(columns=['year','season','season_link', 'winner']).isna().all(axis=1)].index
+df.drop(drop_empty_rows, inplace=True)
 
 # If an entire column is null, drop it
 df.dropna(axis=1, how='all', inplace=True)
 
+
+# Set year as int and sort
+df['year'] = df['year'].astype(int)
+df.sort_values(by='year', inplace=True)
+df.reset_index(drop=True, inplace=True)
+
+
 n_rows_now, n_cols_now = df.shape
 print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
 
-# Replace nonsense values
-df.replace('—',np.nan, inplace=True)
+
+# ------------------------------------------------------------------------------
+# df = pd.DataFrame(records)
+#
+#
+#
+#
+# # Drop anything without a year and season
+# drop_index = df[df[['year', 'season']].isna().sum(axis=1)==2].index
+#
+# # Now drop
+# df.drop(drop_index, inplace=True)
+# df['year'] = df['year'].astype(int)
+# df.sort_values('year', inplace=True)
+#
+# # If an entire column is null, drop it
+# df.dropna(axis=1, how='all', inplace=True)
+#
+# n_rows_now, n_cols_now = df.shape
+# print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
+#
+# # Replace nonsense values
+# df.replace('—',np.nan, inplace=True)
 
 # Do a QA test:
 # Store a query and expected number of results
