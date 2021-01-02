@@ -44,14 +44,14 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Original Score
 - [X]	Tony Award for Best Play
 - [X]	Tony Award for Best Revival
-- [X]	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
+- [X]	Tony Award for Best Revival of a Musical
 - [X]	Tony Award for Best Revival of a Play
 - [X]	Tony Award for Best Scenic Design
 - [X]	Tony Award for Best Scenic Design in a Musical
 - [X]	Tony Award for Best Scenic Design in a Play
 - [ ]	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
-- [ ]	Tony Award for Best Special Theatrical Event
-- [ ]	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
+- [X]	Tony Award for Best Special Theatrical Event
+- [X]	Tony Award for Best Stage Technician
 """
 
 
@@ -195,7 +195,5 @@ for next_key in list(all_links_dict.keys()):
 	    name_root = wq.url.split('/')[-1]
 	    df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
 	    df.to_csv(df_name, index=False)
-
-wq.tables
 
 #
