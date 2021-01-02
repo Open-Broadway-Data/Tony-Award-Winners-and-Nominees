@@ -34,8 +34,8 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Featured Actor in a Musical
 - [X]	Tony Award for Best Featured Actor in a Play
 - [X]	Tony Award for Best Featured Actress in a Musical
-- []	Tony Award for Best Featured Actress in a Play  <-------- This one will need work. It has a non-standard format. Consider revising directly on Wikipedia...
-- []	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
+- [ ]	Tony Award for Best Featured Actress in a Play  <-------- This one will need work. It has a non-standard format. Consider revising directly on Wikipedia...
+- [ ]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
 - [X]	Tony Award for Best Lighting Design in a Musical
 - [X]	Tony Award for Best Lighting Design in a Play
 - [X]	Tony Award for Best Musical
@@ -44,19 +44,19 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Original Score
 - [X]	Tony Award for Best Play
 - [X]	Tony Award for Best Revival
-- []	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
+- [ ]	Tony Award for Best Revival of a Musical <------ Need to reconcile values which span multiple rows... (Create a map of indixes to values... This can potentially be used to solve index col issues)
 - [X]	Tony Award for Best Revival of a Play
 - [X]	Tony Award for Best Scenic Design
 - [X]	Tony Award for Best Scenic Design in a Musical
 - [X]	Tony Award for Best Scenic Design in a Play
-- []	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
+- [ ]	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
 - [X]	Tony Award for Best Special Theatrical Event
-- []	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
+- [ ]	Tony Award for Best Stage Technician <------ Need to reconcile values which span multiple rows
 """
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Stage Technician'
+next_key = 'Tony Award for Best Actor in a Musical'
 
 # for next_key in list(all_links_dict.keys())[:13]:
 
@@ -70,6 +70,10 @@ records = []
 for table in wq.tables:
     data = wq.get_data_from_table(table)
     records.extend(data)
+
+
+# Now try them using a diff method...
+
 
 # ------------------------------------------------------------------------------
 df = pd.DataFrame(records)
