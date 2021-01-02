@@ -20,9 +20,9 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Actor in a Musical
 - [X]	Tony Award for Best Actor in a Play
 - [X]	Tony Award for Best Actress in a Musical
-- [ ]	Tony Award for Best Actress in a Play
-- [ ]	Tony Award for Best Author
-- [ ]	Tony Award for Best Book of a Musical
+- [X]	Tony Award for Best Actress in a Play
+- [X]	Tony Award for Best Author
+- [X]	Tony Award for Best Book of a Musical
 - [ ]	Tony Award for Best Choreography
 - [ ]	Tony Award for Best Conductor and Musical Director
 - [ ]	Tony Award for Best Costume Design
@@ -56,7 +56,7 @@ Here's the ones we've tested:
 
 
 # Continue here -- Getting errors when parsing the individual table
-next_key = 'Tony Award for Best Actor in a Musical'
+next_key = 'Tony Award for Best Book of a Musical'
 
 # for next_key in list(all_links_dict.keys())[:13]:
 
@@ -76,10 +76,6 @@ for table in wq.tables:
 	# get alt way
 	data_alt = methods.get_data_from_table_alt(table)
 	records_alt.extend(data_alt)
-
-
-
-
 
 
 
@@ -111,30 +107,6 @@ print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} 
 
 
 
-
-# ------------------------------------------------------------------------------
-# df = pd.DataFrame(records)
-#
-#
-#
-#
-# # Drop anything without a year and season
-# drop_index = df[df[['year', 'season']].isna().sum(axis=1)==2].index
-#
-# # Now drop
-# df.drop(drop_index, inplace=True)
-# df['year'] = df['year'].astype(int)
-# df.sort_values('year', inplace=True)
-#
-# # If an entire column is null, drop it
-# df.dropna(axis=1, how='all', inplace=True)
-#
-# n_rows_now, n_cols_now = df.shape
-# print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
-#
-# # Replace nonsense values
-# df.replace('—',np.nan, inplace=True)
-
 # Do a QA test:
 # Store a query and expected number of results
 test_query_dict = {
@@ -142,7 +114,7 @@ test_query_dict = {
 		'musical.str.contains("Angel") and year<=2000':3,
 		'musical=="Hamilton" and year==2016 and musical_link.notnull()':2,
 		'actor=="Lin-Manuel Miranda" and winner==False':2,
-		'actor.str.contains("z") and winner==True and year<2020':10,
+		'actor.str.contains("z") and winner==True and year<2020':7,
 
 	},
 	'Tony Award for Best Actress in a Musical':{
@@ -162,7 +134,13 @@ test_query_dict = {
 	},
 	'Tony Award for Best Author':{
 		'year>1965':0,
-		'year==1947':1
+		'year==1947':1,
+		'author=="Arthur Miller"':2,
+		'production.str.contains("!") and year<2020':3,
+	},
+	'Tony Award for Best Book of a Musical':{
+		'winner and year>1950 and year<2005':37,
+		'winner==False and year>1950 and year<2015and author.str.contains("a")':95,
 	},
 	'Tony Award for Best Conductor and Musical Director':{
 		'year>1965':0,
@@ -192,7 +170,6 @@ if wq.wiki_title in test_query_dict:
 	for q, v in my_queries.items():
 		res = df.query(q)
 		assert len(res) == v
-
 
 
 
