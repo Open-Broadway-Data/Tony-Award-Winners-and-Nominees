@@ -49,7 +49,7 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Scenic Design
 - [X]	Tony Award for Best Scenic Design in a Musical
 - [X]	Tony Award for Best Scenic Design in a Play
-- [ ]	Tony Award for Best Sound Design <------ No tables on this page... Need to go and create them
+- [ ]	Tony Award for Best Sound Design <------ Yaakov is creating the tables for this page...
 - [X]	Tony Award for Best Special Theatrical Event
 - [X]	Tony Award for Best Stage Technician
 """
@@ -57,7 +57,7 @@ Here's the ones we've tested:
 
 # Continue here -- Getting errors when parsing the individual table
 next_key = 'Tony Award for Best Featured Actress in a Play'
-
+next_key = 'Tony Award for Best Sound Design'
 
 # for next_key in list(all_links_dict.keys()):
 
@@ -67,9 +67,8 @@ award_type = wq.wiki_title
 # print(award_type)
 # print(wq.url)
 
-# if award_type=='Tony Award for Best Sound Design':
-# 	print('Page has no tables')
-# 	continue
+
+
 records = wq.get_data_from_all_tables()
 clean_records = wq.clean_tony_award_wiki_data(records, wiki_title=wq.wiki_title)
 
@@ -77,7 +76,6 @@ clean_records = wq.clean_tony_award_wiki_data(records, wiki_title=wq.wiki_title)
 # ------------------------------------------------------------------------------
 
 df = pd.DataFrame(clean_records)
-
 
 
 
