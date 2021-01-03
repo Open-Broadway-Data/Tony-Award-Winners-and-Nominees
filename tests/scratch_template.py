@@ -35,7 +35,7 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Featured Actor in a Play
 - [X]	Tony Award for Best Featured Actress in a Musical
 - [ ]	Tony Award for Best Featured Actress in a Play  <-------- Consider revising directly on Wikipedia...
-- [X]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page...
+- [X]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page... (Consider revising actual page?)
 - [X]	Tony Award for Best Lighting Design in a Musical
 - [X]	Tony Award for Best Lighting Design in a Play
 - [X]	Tony Award for Best Musical
@@ -49,7 +49,7 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Scenic Design
 - [X]	Tony Award for Best Scenic Design in a Musical
 - [X]	Tony Award for Best Scenic Design in a Play
-- [ ]	Tony Award for Best Sound Design <------ Yaakov is creating the tables for this page...
+- [X]	Tony Award for Best Sound Design
 - [X]	Tony Award for Best Special Theatrical Event
 - [X]	Tony Award for Best Stage Technician
 """
@@ -65,7 +65,7 @@ next_key = 'Tony Award for Best Sound Design'
 wq = WikiScraper(all_links_dict[next_key])
 award_type = wq.wiki_title
 # print(award_type)
-# print(wq.url)
+print(wq.url)
 
 
 
@@ -76,7 +76,6 @@ clean_records = wq.clean_tony_award_wiki_data(records, wiki_title=wq.wiki_title)
 # ------------------------------------------------------------------------------
 
 df = pd.DataFrame(clean_records)
-
 
 
 #
