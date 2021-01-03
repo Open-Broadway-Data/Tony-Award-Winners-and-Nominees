@@ -34,8 +34,8 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Featured Actor in a Musical
 - [X]	Tony Award for Best Featured Actor in a Play
 - [X]	Tony Award for Best Featured Actress in a Musical
-- [ ]	Tony Award for Best Featured Actress in a Play  <-------- Consider revising directly on Wikipedia...
-- [X]	Tony Award for Best Lighting Design <-------- Has data for best play and best musical on the same page... (Consider revising actual page?)
+- [ ]	Tony Award for Best Featured Actress in a Play  <-------- Revise ETL then we're done!
+- [X]	Tony Award for Best Lighting Design <-------- Begining to revise directly on wikipedia page.
 - [X]	Tony Award for Best Lighting Design in a Musical
 - [X]	Tony Award for Best Lighting Design in a Play
 - [X]	Tony Award for Best Musical
@@ -57,7 +57,7 @@ Here's the ones we've tested:
 
 # Continue here -- Getting errors when parsing the individual table
 next_key = 'Tony Award for Best Featured Actress in a Play'
-next_key = 'Tony Award for Best Sound Design'
+next_key = 'Tony Award for Best Lighting Design'
 
 # for next_key in list(all_links_dict.keys()):
 
