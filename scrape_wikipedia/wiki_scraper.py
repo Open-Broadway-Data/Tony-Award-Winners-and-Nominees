@@ -96,7 +96,7 @@ class WikiScraper:
         df.drop_duplicates(inplace=True)
 
         # Drop rows which don't have values outside of core
-        drop_index = df[df.drop(columns=('year','season','season_link', 'winner'), errors='ignore').isna().all(axis=1)].index
+        drop_index = df[df.drop(columns=['year','season','season_link', 'winner'], errors='ignore').isna().all(axis=1)].index
         df.drop(drop_index, inplace=True)
 
         # If an entire column is null, drop it
