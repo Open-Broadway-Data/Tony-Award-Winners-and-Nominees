@@ -64,45 +64,25 @@ next_key = 'Tony Award for Best Featured Actress in a Play'
 
 wq = WikiScraper(all_links_dict[next_key])
 award_type = wq.wiki_title
-print(award_type)
-print(wq.url)
+# print(award_type)
+# print(wq.url)
 
 # if award_type=='Tony Award for Best Sound Design':
 # 	print('Page has no tables')
 # 	continue
-records = []
-# Put them all together
-for table in wq.tables:
-	data = methods.get_data_from_table(table)
-	records.extend(data)
+records = wq.get_data_from_all_tables()
+clean_records = wq.clean_tony_award_wiki_data(records, wiki_title=wq.wiki_title)
 
 
 # ------------------------------------------------------------------------------
 
-df = pd.DataFrame(records)
+df = pd.DataFrame(clean_records)
 
-if 'Tony Award for Best Featured Actress in a Play' ==wq.wiki_title and 'nominees' in df.columns:
-	df = df.explode('nominees').reset_index(drop=True)
 
-	#Clean up
-	df['season'] = df['season_link'].apply(lambda x: x.split('/')[-1].replace('_',' ').lower())
-	df.rename(
-		columns={
-			'actress':'winning_actor',
-			'actress_link':'winning_actress_link',
-			'role':'winning_role',
-			'work':'winning_production',
-			'work_link':'winning_production_link'
-			},
-		inplace=True)
 
-	df_nominee_data = df['nominees'].apply(pd.Series).drop(columns=0).add_prefix('nominee_')
-	df = df.merge(df_nominee_data, left_index=True, right_index=True).tail(50)
 
-	# drop what you don't need
-	df.drop(columns=['winner', 'nominees'],inplace=True)
-
-	# Next step is to clean this messy data...
+#
+# 	# Next step is to clean this messy data...
 
 
 n_rows_orig, n_cols_orig = df.shape
