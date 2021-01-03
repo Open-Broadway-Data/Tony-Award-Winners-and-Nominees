@@ -34,7 +34,7 @@ Here's the ones we've tested:
 - [X]	Tony Award for Best Featured Actor in a Musical
 - [X]	Tony Award for Best Featured Actor in a Play
 - [X]	Tony Award for Best Featured Actress in a Musical
-- [ ]	Tony Award for Best Featured Actress in a Play  <-------- Revise ETL then we're done!
+- [X]	Tony Award for Best Featured Actress in a Play
 - [X]	Tony Award for Best Lighting Design <-------- Begining to revise directly on wikipedia page.
 - [X]	Tony Award for Best Lighting Design in a Musical
 - [X]	Tony Award for Best Lighting Design in a Play
@@ -57,7 +57,6 @@ Here's the ones we've tested:
 
 # Continue here -- Getting errors when parsing the individual table
 next_key = 'Tony Award for Best Featured Actress in a Play'
-next_key = 'Tony Award for Best Lighting Design'
 
 # for next_key in list(all_links_dict.keys()):
 
@@ -65,7 +64,7 @@ next_key = 'Tony Award for Best Lighting Design'
 wq = WikiScraper(all_links_dict[next_key])
 award_type = wq.wiki_title
 # print(award_type)
-print(wq.url)
+
 
 
 
@@ -78,30 +77,9 @@ clean_records = wq.clean_tony_award_wiki_data(records, wiki_title=wq.wiki_title)
 df = pd.DataFrame(clean_records)
 
 
-#
-# 	# Next step is to clean this messy data...
 
 
-n_rows_orig, n_cols_orig = df.shape
 
-# Drop rows which don't have values outside of core
-df.replace({'N/A':np.nan, '—': np.nan}, inplace=True)
-df.drop_duplicates(inplace=True)
-drop_empty_rows = df[df.drop(columns=['year','season','season_link', 'winner'], errors='ignore').isna().all(axis=1)].index
-df.drop(drop_empty_rows, inplace=True)
-
-# If an entire column is null, drop it
-df.dropna(axis=1, how='all', inplace=True)
-
-
-# Set year as int and sort
-df['year'] = df['year'].astype(int)
-df.sort_values(by='year', inplace=True)
-df.reset_index(drop=True, inplace=True)
-
-
-n_rows_now, n_cols_now = df.shape
-print(f'dropping {n_rows_orig-n_rows_now:,} rows & {n_cols_orig - n_cols_now:,} columns ')
 
 # df.query('winner and year>1950 and year<2005').shape
 
