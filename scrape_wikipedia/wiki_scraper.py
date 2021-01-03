@@ -117,6 +117,17 @@ class WikiScraper:
 
         return df.to_dict('records')
 
+    @staticmethod
+    def validate_tony_award_wiki_data(records, wiki_title):
+        """
+        Make sure your data is gucci. Doesn't return anything, just passes if okay.
+
+        NOTE: This function is a wrapper for `methods.test_data_quality_tony_awards(records, wiki_title)`
+
+        Also: wiki_title=self.wiki_title
+        """
+        methods.test_data_quality_tony_awards(records, wiki_title)
+
     # -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     #   BLOCK METHODS
     # -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
