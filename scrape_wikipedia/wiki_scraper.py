@@ -18,10 +18,10 @@ class WikiScraper:
     This represents the class for scraping wikipedia
     """
 
-    def __init__(self, url, **kwargs):
+    def __init__(self, url=None, **kwargs):
         """
         Here are the params:
-            url: the url to be scraped
+            url: the url to be scraped (default is None)
             table_attrs: what is the table attributes for this url
         """
         self.url = url
@@ -145,8 +145,34 @@ class WikiScraper:
         return records
 
 
+    def get_all_tony_award_data(self, validate_data_quality=True):
+        """
+        Returns data from all Tony Award wikipedia pages.
+        """
 
+        all_links_dict = methods.get_dict_of_links_for_tony_awards()
+        all_records = {k:None for k in all_links_dict}
 
+        for key, value in all_links_dict.items():
+            self.url = value
+            self._soup = None
+            records = self.get_data_from_all_tables()
+            records = self.clean_tony_award_wiki_data(records, wiki_title=self.wiki_title)
+
+            if validate_data_quality:
+                self.validate_tony_award_wiki_data(records, wiki_title=self.wiki_title)
+
+            all_records[key] = records
+
+            # If you want to save
+            if os.environ.get('SAVE',False):
+                os.makedirs('data', exist_ok=True)
+                name_root = self.url.split('/')[-1]
+                df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
+                df.to_csv(df_name, index=False)
+
+        # finally
+        return all_records
 
 
 
