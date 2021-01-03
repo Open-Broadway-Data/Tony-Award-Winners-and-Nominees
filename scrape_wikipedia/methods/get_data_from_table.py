@@ -1,122 +1,151 @@
 from scrape_wikipedia import utils
 import bs4
+import re
 
 # Add assert type method in a bit
 def get_data_from_table(table:bs4.element.Tag):
     """
     returns a structured table for a beautiful soup table
     """
+    new_table = table_to_2d(table, add_row_style_as_value=True)
 
-    # ----------------------------------------------------------------------
+    # print([row[0] for row in new_table])
 
-    # 1. Get your column names
-    my_columns = utils.get_column_names(table)
+    # Now, need to iterate through this table and parse values.
+    col_names = [utils.get_text_from_tag(x).lower() for x in new_table.pop(0)]
+    style_idx = col_names.index('style')
 
-    # If 'year' isn't in the table, skip
-    if 'year' not in (x.lower() for x in my_columns):
-        return []
-
-    # get all values
+    # Instantiate a blank list
     records = []
-    rows = table.find_all('tr')
 
-    # Default values as none...
-    year = None; season=None; winner=None;
+    for row_idx, row in enumerate(new_table):
 
-    # 2. Iterate through rows.
-    for row in rows[1:]:
+        # If all the values are equal, skip...
+        if len(set(row)) <= 2:
+            continue
 
-        # 3. get row indexes
-        # get the year and season – then, get out of there...
-        # index_col = row.find('td', {'rowspan':True})
-        index_col = row.select_one(
-            'td[align="center"],'
-            'td[style*="text-align:center"],'
-            'th[align="center"],'
-            'th[style*="text-align:center"]',
-            )
+        if col_names[0].lower()!='year':
+            # we are only interested in tables which correspond with tony awards
+            continue
 
-        if index_col:
-            # Year is either bold or is the 1st link
-            if index_col.find('b'):
-                year = utils.get_number_from_str(index_col.find('b').text)
-            else:
-                year = utils.get_number_from_str(index_col.find('a').text)
+        # If this is a null row, this is how you'll know..
+        if not row[0].select_one('a'):
+            continue
+        year = utils.get_number_from_str(row[0].text[:4])
+        season = row[0].select_one('a').text
+        season_link = row[0].select_one('a[href]')
+        if season_link:
+            season_link = season_link.get('href')
 
-            season = utils.get_text_from_tag(index_col.find('a',{'href':True, 'title':True}),'title')
-            # continue
-
-        # 4. Is this row a winner?
-        # Figure out if they won the tony award or not...
-        if row.get('style') and 'background:#B0C4DE' in row.get('style'):
+        # Are you a winner?
+        if row[style_idx] and 'background:#B0C4DE' in row[style_idx]:
             winner = True
         else:
             winner = False
-        # winning_attrs={'style':'background:#B0C4DE'}
-        # winner = utils.is_this_a_winner(row, winning_attrs)
 
-
-        # 5. Initialize record
-        # Begin the record....
-        rec = {'year':year, 'season': season, 'winner':winner}
-
-
-        # 6. Iterate through each row (get cell values)
-        # i = 1 since index_col is i=0
-        my_cells = row.select(
-            f'td:not(.table-na)'
-            f':not([colspan="{len(my_columns)}"])'
-            f':not([colspan="{len(my_columns)+1}"])'
-            f':not([align="center"])'
-            f':not([style="text-align:center"])'
+        rec = dict(
+    		year=year,
+    		season=season,
+    		season_link=season_link,
+            winner=winner,
         )
 
-        # If you haven't got any data, skip
-        if not my_cells:
-            continue
-        # I'm not sure we should do this...
-        # if len(my_cells)==1:
-        #     continue
+        # additional_data
+        additional_data={}
 
-        # If you have the same number, remove the first cell
-        if len(my_cells)==len(my_columns):
-            del my_cells[0]
+        # Go through each of the cells and add the value
+        for i, cell in enumerate(row[1:]):
 
-        i=1
-        for cell in my_cells:
+            my_col = col_names[i+1]
 
-            #how many cols does this cell span?
-            n_cols = int(utils.remove_punctuation(cell.get("colspan", 1)))
+            # If there's no value or style col
+            if not cell or my_col=='style':
+                continue
 
-            #how many rows does this cell span?
-            n_rows = int(utils.remove_punctuation(cell.get("rowspan", 1)))
-            # if n_rows>0:
-            #     print(f'Do something here... Current column = {i}; current row = {len(records)}')
-            #     print(len(my_cells), n_cols)
+            # Otherwise
+            # Here, we can split/explode for nested cells
+            if my_col=='nominees' and cell.text.strip()!='':
+                nom_data = []
+                for item in cell.select('li'):
+                    # get the info (no links)
+                    actor = re.search('([A-z ]+) in', item.text).group(1)
+                    production = re.search(' in (.+) as', item.text).group(1)
+                    role = re.search(' as (.+)', item.text).group(1)
+                    # Now get your links
+                    all_links = {x.text:'https://en.wikipedia.org'+x.get('href') for x in item.find_all('a')}
 
-            for j in range(n_cols):
+                    nom_rec = dict(
+                        actor=actor,
+                        actor_link=all_links.get(actor),
+                        production=production,
+                        production_link=all_links.get(production),
+                        role=role,
+                        role_link=all_links.get(role)
 
-                col_name = my_columns[i]
-                val = utils.get_text_from_tag(cell.text)
+                    )
+                    nom_data.append(nom_rec)
 
-                # 7. Store your values
-                rec.update({col_name: val})
-                # get the text
+                additional_data[my_col] = nom_data
+            else:
+                additional_data[my_col] = cell.get_text(strip=True)
 
-                # 8. Augement values, if necessary
-                # if there's a link, get the link
-                if cell.find("a", {"href":True}):
-                    href = cell.find("a").get("href")
-                    href = 'https://en.wikipedia.org' + href
-                    rec.update({col_name + "_link": href})
+            # if there's a link, save it
+            if cell.select_one('a[href]'):
+                additional_data[my_col + '_link'] = 'https://en.wikipedia.org' + cell.select_one('a[href]').get('href')
 
+        # Only store values when you have em'
+        if additional_data:
+            rec = {**rec, **additional_data}
 
-                # done iterating through this cell...
-                i+=1
-
-        # 9. save your row
-        records.append(rec)
+            # Save your record
+            records.append(rec)
 
 
-    # 10. All done!
     return records
+
+
+def table_to_2d(table, add_row_style_as_value=True):
+    """Convert a table into a 2d matrix"""
+    rows = table("tr")
+    if add_row_style_as_value:
+        row_styles = [row.get('style') for i, row in enumerate(rows)]
+        row_styles[0] = 'style'
+
+    cols = rows[0](["td", "th"])
+    table = [[None] * len(cols) for _ in range(len(rows))]
+    for row_i, row in enumerate(rows):
+        for col_i, col in enumerate(row(["td", "th"])):
+            insert_into_table(table, row_i, col_i, col)
+
+    # now add the style if we want them...
+    # There's def a better way to do this....
+    if row_styles:
+        table = [row + [row_styles[i]] for i,row in enumerate(table)]
+    return table
+
+
+def insert_into_table(table, row, col, element):
+    """Insert values from a table into a 2d matrix"""
+    if row >= len(table) or col >= len(table[row]):
+        return
+    if table[row][col] is None:
+        # value = element.get_text().strip()
+        value = element
+        table[row][col] = value
+        if element.has_attr("colspan"):
+            span = int(element["colspan"])
+            for i in range(1, span):
+                # This column is trying to add a value where it doesn't exist
+                if col+i >= len(table[row]):
+                    continue
+                table[row][col+i] = value
+        if element.has_attr("rowspan"):
+            span = int(element["rowspan"])
+            for i in range(1, span):
+                # This row is attempting to overwrite a row which doesn't exist
+                if row+i>=len(table):
+                    continue
+                # print(table[row+1])
+                table[row+i][col] = value
+    else:
+        insert_into_table(table, row, col + 1, element)
