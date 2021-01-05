@@ -5,7 +5,8 @@ from functools import lru_cache
 from locale import atof, setlocale, LC_NUMERIC
 
 # set the local
-setlocale(LC_NUMERIC, '')
+setlocale(LC_NUMERIC, 'en_US.UTF-8')
+
 
 @lru_cache(maxsize=100)
 def get_number_from_str(string:str, n_results='first', coerce_type='int'):

@@ -11,7 +11,7 @@ import pandas as pd
 pd.options.display.max_rows = 100
 
 wq = WikiScraper(url=None)
-data = wq.get_all_tony_award_data()
+data = wq.get_all_tony_award_data(save=True)
 
 # Now you can reference individual items in the data and build a dataframe for it.
 # Very useful for testing data quality.

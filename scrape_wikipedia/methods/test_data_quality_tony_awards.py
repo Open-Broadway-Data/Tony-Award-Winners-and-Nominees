@@ -3,10 +3,10 @@ import pandas as pd
 # Store a query and expected number of results
 test_query_dict = {
     'Tony Award for Best Actor in a Musical':{
-        'musical.str.contains("Angel") and year<=2000':3,
+        'musical.str.contains("Angel", na=False) and year<=2000':3,
         'musical=="Hamilton" and year==2016 and musical_link.notnull()':2,
         'actor=="Lin-Manuel Miranda" and winner==False':2,
-        'actor.str.contains("z") and winner==True and year<2020':7,
+        'actor.str.contains("z", na=False) and winner==True and year<2020':7,
 
     },
     'Tony Award for Best Actress in a Musical':{
@@ -28,11 +28,11 @@ test_query_dict = {
         'year>1965':0,
         'year==1947':1,
         'author=="Arthur Miller"':2,
-        'production.str.contains("!") and year<2020':3,
+        'production.str.contains("!", na=False) and year<2020':3,
     },
     'Tony Award for Best Book of a Musical':{
         'winner and year>1950 and year<2005':37,
-        'winner==False and year>1950 and year<2015and author.str.contains("a")':95,
+        'winner==False and year>1950 and year<2015and author.str.contains("a", na=False)':95,
     },
     'Tony Award for Best Choreography':{
         'winner and year>1950 and year<2005':54,
@@ -56,11 +56,11 @@ test_query_dict = {
         'year==2020 and play=="Slave Play" and winner==False':2
     },
     'Tony Award for Best Featured Actress in a Play':{
-        # 'winning_actor.astype("str").str.contains("l")':37,
-        # 'winning_production.astype("str").str.contains("o")':46
+        # 'winning_actor.astype("str").str.contains("l", na=False)':37,
+        # 'winning_production.astype("str").str.contains("o", na=False)':46
     },
     'Tony Award for Best Lighting Design':{
-        'designer.str.contains("Akerlind")':7,
+        'designer.str.contains("Akerlind", na=False)':7,
     }
 }
 

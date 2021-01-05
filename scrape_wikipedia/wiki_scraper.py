@@ -145,7 +145,7 @@ class WikiScraper:
         return records
 
 
-    def get_all_tony_award_data(self, validate_data_quality=True):
+    def get_all_tony_award_data(self, validate_data_quality=True, **kwargs):
         """
         Returns data from all Tony Award wikipedia pages.
         """
@@ -165,11 +165,11 @@ class WikiScraper:
             all_records[key] = records
 
             # If you want to save
-            if os.environ.get('SAVE',False):
+            if kwargs.get('save',False):
                 os.makedirs('data', exist_ok=True)
                 name_root = self.url.split('/')[-1]
                 df_name = os.path.join('data', f'Wikipedia_scrape_{name_root}.csv')
-                df.to_csv(df_name, index=False)
+                pd.DataFrame(records).to_csv(df_name, index=False)
 
         # finally
         return all_records
