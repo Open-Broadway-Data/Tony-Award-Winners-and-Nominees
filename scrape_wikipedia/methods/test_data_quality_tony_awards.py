@@ -7,6 +7,9 @@ test_query_dict = {
         'musical=="Hamilton" and year==2016 and musical_link.notnull()':2,
         'actor=="Lin-Manuel Miranda" and winner==False':2,
         'actor.str.contains("z", na=False) and winner==True and year<2020':7,
+        'actor=="Brian Stokes Mitchell" and musical=="Kiss Me, Kate" and character=="Fred Graham /Petruchio" and year==2000':1,
+        'actor=="Aaron Tveit" and year==2020':1,
+        'actor.str.contains("z") and year<2020':11
 
     },
     'Tony Award for Best Actress in a Musical':{
@@ -20,6 +23,8 @@ test_query_dict = {
     'Tony Award for Best Actor in a Play':{
         'year==1947':2,
         'play=="Dracula"':1,
+        'actor.str.contains("a") and year<2020':210,
+        'actor.str.contains("z") and year<2020':10,
     },
     'Tony Award for Best Actress in a Play':{
         'year==1947':2,

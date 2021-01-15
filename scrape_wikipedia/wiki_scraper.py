@@ -159,6 +159,7 @@ class WikiScraper:
             records = self.get_data_from_all_tables()
             records = self.clean_tony_award_wiki_data(records, wiki_title=self.wiki_title)
 
+            # Run data integrity tests (unless specified otherwise)
             if validate_data_quality:
                 self.validate_tony_award_wiki_data(records, wiki_title=self.wiki_title)
 

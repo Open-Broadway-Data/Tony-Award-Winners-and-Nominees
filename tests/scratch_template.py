@@ -15,15 +15,23 @@ data = wq.get_all_tony_award_data(save=True)
 
 
 
+
 # Now you can reference individual items in the data and build a dataframe for it.
 # Very useful for testing data quality.
 for key, value in data.items():
+
 	print(key)
-	continue
+
 	df = pd.DataFrame(value)
 	if 'award_name' not in df.columns:
 		df['award_name'] = key
-	break
+
+	if key == 'Tony Award for Best Actor in a Play':
+		break
+
+
+# Define a query and determine how many records exist for this query
+df.query('actor.str.contains("z") and year<2020').shape
 
 df.head(5)
 
